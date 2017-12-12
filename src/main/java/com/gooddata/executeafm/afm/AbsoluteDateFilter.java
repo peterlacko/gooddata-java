@@ -17,8 +17,6 @@ import com.gooddata.util.GDDateSerializer;
 import com.gooddata.util.GoodDataToStringBuilder;
 import org.joda.time.LocalDate;
 
-import static com.gooddata.util.Validate.notNull;
-
 /**
  * Represents {@link DateFilter} specifying exact from and to dates.
  */
@@ -39,8 +37,8 @@ public class AbsoluteDateFilter extends DateFilter {
                               @JsonProperty("from") @JsonDeserialize(using = GDDateDeserializer.class) final LocalDate from,
                               @JsonProperty("to") @JsonDeserialize(using = GDDateDeserializer.class) final LocalDate to) {
         super(dataSet);
-        this.from = notNull(from, "from");
-        this.to = notNull(to, "to");
+        this.from = from;
+        this.to = to;
     }
 
     /**

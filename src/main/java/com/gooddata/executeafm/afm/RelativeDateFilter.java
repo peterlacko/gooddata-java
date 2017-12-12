@@ -12,8 +12,7 @@ import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
-import static com.gooddata.util.Validate.notEmpty;
-import static com.gooddata.util.Validate.notNull;
+import static org.apache.http.util.Args.notEmpty;
 
 /**
  * Represents {@link DateFilter} specifying relative range of given granularity.
@@ -38,8 +37,8 @@ public class RelativeDateFilter extends DateFilter {
                               @JsonProperty("from") final Integer from, @JsonProperty("to") final Integer to) {
         super(dataSet);
         this.granularity = notEmpty(granularity, "granularity");
-        this.from = notNull(from, "from");
-        this.to = notNull(to, "to");
+        this.from = from;
+        this.to = to;
     }
 
     public String getGranularity() {
