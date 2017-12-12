@@ -1,0 +1,14 @@
+{
+  "visualizationClass": {
+    "content": {
+      "url": "local:table",
+      "icon": "icon",
+      "iconSelected": "iconSelected",
+      "checksum": "checksum",
+      "orderIndex": 0
+    },
+    "meta": {
+      "name": "some name"
+    }
+  }
+}

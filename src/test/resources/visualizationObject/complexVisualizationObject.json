@@ -1,0 +1,134 @@
+{
+  "visualizationObject": {
+    "meta": {
+      "title": "New insight",
+      "category": "visualizationObject",
+      "uri": "/gdc/md/FoodMartDemo/obj/1"
+    },
+    "content": {
+      "visualizationClass": {
+        "uri": "visClass1"
+      },
+      "buckets": [
+        {
+          "localIdentifier": "bucket1",
+          "items": [
+            {
+              "visualizationAttribute": {
+                "localIdentifier": "attribute1",
+                "displayForm": {
+                  "uri": "/uri/to/displayForm/1"
+                }
+              }
+            }, {
+              "visualizationAttribute": {
+                "localIdentifier": "attribute2",
+                "displayForm": {
+                  "uri": "/uri/to/displayForm/2"
+                }
+              }
+            }
+          ]
+        }, {
+          "localIdentifier": "bucket2",
+          "items": [
+            {
+              "measure": {
+                "localIdentifier": "measure1",
+                "title": "Measure 1",
+                "definition": {
+                  "measureDefinition": {
+                    "item": {
+                      "uri": "/uri/to/measure/1"
+                    },
+                    "filters": [
+                      {
+                        "positiveAttributeFilter": {
+                          "displayForm": {
+                            "uri": "/uri/to/displayForm/3"
+                          },
+                          "in": [
+                            "/uri/to/item/1",
+                            "/uri/to/item/2"
+                          ]
+                        }
+                      }, {
+                        "negativeAttributeFilter": {
+                          "displayForm": {
+                            "uri": "/uri/to/displayForm/3"
+                          },
+                          "notIn": [
+                            "/uri/to/item/1",
+                            "/uri/to/item/2"
+                          ]
+                        }
+                      }, {
+                        "absoluteDateFilter": {
+                          "dataSet": {
+                            "uri": "/uri/to/dataSet/1"
+                          },
+                          "from": "2000-08-30",
+                          "to": "2017-08-07"
+                        }
+                      }, {
+                        "relativeDateFilter": {
+                          "dataSet": {
+                            "uri": "/uri/to/dataSet/2"
+                          },
+                          "granularity": "month",
+                          "from": 0,
+                          "to": -11
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "filters": [
+        {
+          "positiveAttributeFilter": {
+            "displayForm": {
+              "uri": "/uri/to/displayForm/3"
+            },
+            "in": [
+              "/uri/to/item/1",
+              "/uri/to/item/2"
+            ]
+          }
+        }, {
+          "negativeAttributeFilter": {
+            "displayForm": {
+              "uri": "/uri/to/displayForm/3"
+            },
+            "notIn": [
+              "/uri/to/item/1",
+              "/uri/to/item/2"
+            ]
+          }
+        }, {
+          "absoluteDateFilter": {
+            "dataSet": {
+              "uri": "/uri/to/dataSet/1"
+            },
+            "from": "2000-08-30",
+            "to": "2017-08-07"
+          }
+        }, {
+          "relativeDateFilter": {
+            "dataSet": {
+              "uri": "/uri/to/dataSet/2"
+            },
+            "granularity": "month",
+            "from": 0,
+            "to": -11
+          }
+        }
+      ],
+      "properties": "{\"key\":\"value\"}"
+    }
+  }
+}

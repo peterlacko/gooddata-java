@@ -68,6 +68,10 @@ public class Dimension {
         return itemIdentifiers;
     }
 
+    public void addItemIdentifier(String itemIdentifier) {
+        this.itemIdentifiers.add(itemIdentifier);
+    }
+
     public Set<TotalItem> getTotals() {
         return totals;
     }
