@@ -20,7 +20,7 @@ import static com.gooddata.util.Validate.noNullElements;
 public abstract class AbstractObj {
 
     @JsonProperty("meta")
-    protected Meta meta;
+    protected final Meta meta;
 
     protected AbstractObj(@JsonProperty("meta") Meta meta) {
         this.meta = meta;

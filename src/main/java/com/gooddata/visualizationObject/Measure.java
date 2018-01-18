@@ -33,19 +33,6 @@ public class Measure extends MeasureItem implements BucketItem {
         this.title = title;
     }
 
-    public MeasureItem getMeasureForAfm() {
-        String alias = getAlias();
-        String usedTitle = "";
-        if(alias == null || alias.isEmpty())  {
-            if (title != null) {
-                usedTitle = title;
-            }
-        } else {
-            usedTitle = alias;
-        }
-        return new MeasureItem(getDefinition(), getLocalIdentifier(), usedTitle, getFormat());
-    }
-
     public String getTitle() {
         return title;
     }
@@ -55,7 +42,6 @@ public class Measure extends MeasureItem implements BucketItem {
     }
 
     public boolean hasComputeRatio() {
-        MeasureDefinition md = getDefinition();
-        return md instanceof SimpleMeasureDefinition && ((SimpleMeasureDefinition) md).hasComputeRatio();
+        return getDefinition().hasComputeRatio();
     }
 }

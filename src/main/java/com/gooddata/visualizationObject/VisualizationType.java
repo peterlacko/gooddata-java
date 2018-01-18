@@ -20,7 +20,7 @@ public enum VisualizationType {
         return name().toLowerCase();
     }
 
-    public static VisualizationType get(String type) {
+    public static VisualizationType get(final String type) {
         for (VisualizationType vizType : VisualizationType.values()) {
             if (vizType.toString().equalsIgnoreCase(type)) {
                 return vizType;
