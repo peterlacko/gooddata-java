@@ -23,16 +23,22 @@ public class VisualizationClass extends AbstractObj implements Serializable {
 
     private Content content;
 
-    public VisualizationClass(@JsonProperty("content") Content content, @JsonProperty("meta") Meta meta ) {
+    public VisualizationClass(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta ) {
         super(meta);
 
         this.content = content;
     }
 
+    public Content getContent()  {
+        return content;
+    }
+
+    @JsonIgnore
     public boolean isLocal() {
         return getContent().getUrl().startsWith("local");
     }
 
+    @JsonIgnore
     public VisualizationType getVisualizationType() {
         String uriParts[] = getContent().getUrl().split(":");
         String derivedType = uriParts[uriParts.length-1];
@@ -46,7 +52,7 @@ public class VisualizationClass extends AbstractObj implements Serializable {
         return visualizationType;
     }
 
-    public static class Content implements Serializable {
+    private static class Content implements Serializable {
         private String url;
         private String icon;
         private String iconSelected;
@@ -87,9 +93,4 @@ public class VisualizationClass extends AbstractObj implements Serializable {
             return orderIndex;
         }
     }
-
-    public Content getContent()  {
-        return content;
-    }
-
 }

@@ -20,8 +20,8 @@ public class Bucket {
     private List<BucketItem> items;
 
     @JsonCreator
-    public Bucket(@JsonProperty("localIdentifier") String localIdentifier,
-                  @JsonProperty("items") List<BucketItem> items) {
+    public Bucket(@JsonProperty("localIdentifier") final String localIdentifier,
+                  @JsonProperty("items") final List<BucketItem> items) {
         this.localIdentifier = localIdentifier;
         this.items = items;
     }

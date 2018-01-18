@@ -5,6 +5,7 @@
  */
 package com.gooddata.executeafm.afm;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.gooddata.executeafm.ObjQualifier;
@@ -66,5 +67,10 @@ public class PopMeasureDefinition implements MeasureDefinition {
     @Override
     public String toString() {
         return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+    @Override
+    public boolean hasComputeRatio() {
+        return false;
     }
 }

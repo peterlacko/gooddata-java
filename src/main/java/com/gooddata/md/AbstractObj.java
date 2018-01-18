@@ -23,7 +23,7 @@ public abstract class AbstractObj implements Serializable {
     private static final long serialVersionUID = 2910760851810495274L;
 
     @JsonProperty("meta")
-    protected Meta meta;
+    protected final Meta meta;
 
     protected AbstractObj(@JsonProperty("meta") Meta meta) {
         this.meta = meta;

@@ -13,16 +13,12 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static com.gooddata.visualizationObject.CollectionType.*;
 import static java.util.stream.Collectors.toList;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.executeafm.afm.*;
-import com.gooddata.executeafm.resultspec.SortItem;
 import com.gooddata.md.AbstractObj;
 import com.gooddata.md.Meta;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @JsonTypeName(VisualizationObject.NAME)
@@ -34,7 +30,7 @@ public class VisualizationObject extends AbstractObj {
     private Content content;
 
     @JsonCreator
-    public VisualizationObject(@JsonProperty("content") Content content, @JsonProperty("meta") Meta meta) {
+    public VisualizationObject(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta) {
         super(meta);
         this.content = content;
     }
@@ -43,41 +39,30 @@ public class VisualizationObject extends AbstractObj {
         return content;
     }
 
+    @JsonIgnore
     public List<Bucket> getBuckets() {
         return getContent().getBuckets();
     }
 
+    @JsonIgnore
     public List<Measure> getMeasures() {
         return getContent().getMeasures();
     }
 
+    @JsonIgnore
     public List<Measure> getSimpleMeasures() {
         return getMeasures().stream()
                 .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition)
                 .collect(toList());
     }
 
-
-    public List<MeasureItem> getMeasuresForAfm() {
-        List<Measure> measures = getMeasures();
-
-        List<MeasureItem> measuresForAfm = measures.stream()
-                .map(measure -> measure.getMeasureForAfm())
-                .collect(toList());
-        return measuresForAfm;
-    }
-
+    @JsonIgnore
     public List<VisualizationAttribute> getAttributes() {
         return getContent().getAttributes();
     }
 
-    public List<AttributeItem> getAttributesForAfm() {
-        return getAttributes().stream()
-                .map(attribute -> (AttributeItem) attribute)
-                .collect(toList());
-    }
-
-    public VisualizationAttribute getAttributeFromCollection(CollectionType type) {
+    @JsonIgnore
+    public VisualizationAttribute getAttributeFromCollection(final CollectionType type) {
         Bucket collectionBucket = getContent().getBuckets().stream()
                 .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString()))
                 .findFirst()
@@ -95,60 +80,42 @@ public class VisualizationObject extends AbstractObj {
         return attribute;
     }
 
+    @JsonIgnore
     public VisualizationAttribute getStack() {
         return getAttributeFromCollection(STACK);
     }
 
+    @JsonIgnore
     public VisualizationAttribute getView() {
         return getAttributeFromCollection(VIEW);
     }
+
+    @JsonIgnore
     public VisualizationAttribute getSegment() {
         return getAttributeFromCollection(SEGMENT);
     }
+
+    @JsonIgnore
     public VisualizationAttribute getTrend() {
         return getAttributeFromCollection(TREND);
     }
 
+    @JsonIgnore
     public String getVisualizationClassUri() {
         return getContent().getVisualizationClassUri();
     }
 
+    @JsonIgnore
     public List<FilterItem> getFilters() {
         return getContent().getFilters();
     }
 
-    public List<CompatibilityFilter> getCompatibilityFilters() {
-        return (List<CompatibilityFilter>)(List<?>) getFilters();
-    }
-
+    @JsonIgnore
     public String getProperties() {
         return getContent().getProperties();
     }
 
-    public List<SortItem> getSorts() {
-        String properties = getContent().getProperties();
-        try {
-            JsonNode jsonProperties = getParsedProperties(properties);
-            if (jsonProperties.has("sortItems")) {
-                List<SortItem> sortItems = new ArrayList<>();
-                Iterator<JsonNode> sortItemsIterator = jsonProperties.get("sortItems").iterator();
-                ObjectMapper mapper = new ObjectMapper();
-                while(sortItemsIterator.hasNext()) {
-                    sortItems.add(mapper.convertValue(sortItemsIterator.next(), SortItem.class));
-                }
-                return sortItems;
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return null;
-    }
-
-    private JsonNode getParsedProperties(String properties) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(properties, JsonNode.class);
-    }
-
+    @JsonIgnore
     public boolean hasDerivedMeasure() {
         List<Measure> measures = getMeasures();
         return measures.stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
@@ -156,17 +123,17 @@ public class VisualizationObject extends AbstractObj {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class Content {
+    private static class Content {
         private UriObjQualifier visualizationClass;
         private List<Bucket> buckets;
         private List<FilterItem> filters;
         private String properties;
 
         @JsonCreator
-        public Content(@JsonProperty("visualizationClass") UriObjQualifier visualizationClass,
-                       @JsonProperty("buckets") List<Bucket> buckets,
-                       @JsonProperty("filters") List<FilterItem> filters,
-                       @JsonProperty("properties") String properties) {
+        public Content(@JsonProperty("visualizationClass") final UriObjQualifier visualizationClass,
+                       @JsonProperty("buckets") final List<Bucket> buckets,
+                       @JsonProperty("filters") final List<FilterItem> filters,
+                       @JsonProperty("properties") final String properties) {
 
             this.visualizationClass = visualizationClass;
             this.buckets = buckets;
@@ -178,6 +145,7 @@ public class VisualizationObject extends AbstractObj {
             return buckets;
         }
 
+        @JsonIgnore
         public List<VisualizationAttribute> getAttributes() {
             List<Bucket> buckets = getBuckets();
 
@@ -194,8 +162,8 @@ public class VisualizationObject extends AbstractObj {
             return attributes;
         }
 
+        @JsonIgnore
         public List<Measure> getMeasures() {
-
             final List<Measure> measures = new ArrayList<>();
             for(Bucket bucket: buckets) {
                 List<BucketItem> items = bucket.getItems();
@@ -209,6 +177,7 @@ public class VisualizationObject extends AbstractObj {
             return measures;
         }
 
+        @JsonIgnore
         public String getVisualizationClassUri() {
             return visualizationClass.getUri();
         }
