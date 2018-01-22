@@ -52,7 +52,7 @@ public class VisualizationObject extends AbstractObj {
     @JsonIgnore
     public List<Measure> getSimpleMeasures() {
         return getMeasures().stream()
-                .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition)
+                .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition) // TODO
                 .collect(toList());
     }
 
@@ -64,7 +64,7 @@ public class VisualizationObject extends AbstractObj {
     @JsonIgnore
     public VisualizationAttribute getAttributeFromCollection(final CollectionType type) {
         Bucket collectionBucket = getContent().getBuckets().stream()
-                .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString()))
+                .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString())) // TODO
                 .findFirst()
                 .orElse(null);
         if (collectionBucket == null) {
@@ -147,7 +147,7 @@ public class VisualizationObject extends AbstractObj {
 
         @JsonIgnore
         public List<VisualizationAttribute> getAttributes() {
-            List<Bucket> buckets = getBuckets();
+            List<Bucket> buckets = getBuckets(); // TODO: rewrite this as well
 
             final List<VisualizationAttribute> attributes = new ArrayList<>();
             for(Bucket bucket: buckets) {
@@ -164,17 +164,22 @@ public class VisualizationObject extends AbstractObj {
 
         @JsonIgnore
         public List<Measure> getMeasures() {
-            final List<Measure> measures = new ArrayList<>();
-            for(Bucket bucket: buckets) {
-                List<BucketItem> items = bucket.getItems();
-                for(BucketItem item: items) {
-                    if (item instanceof Measure) {
-                        measures.add((Measure) item);
-                    }
-                }
-            }
-
-            return measures;
+//            final List<Measure> measures = new ArrayList<>();
+//            for(Bucket bucket: buckets) {
+//                List<BucketItem> items = bucket.getItems();
+//                for(BucketItem item: items) {
+//                    if (item instanceof Measure) {
+//                        measures.add((Measure) item);
+//                    }
+//                }
+//            }
+            return buckets.stream() // TODO OK?
+                    .map(bucket -> bucket.getItems().stream()
+                            .filter(bucketItem -> bucketItem instanceof Measure)
+                            .collect(toList())
+                    )
+                    .flatMap(List::stream)
+                    .collect(ArrayList::new, List::add, List::addAll);
         }
 
         @JsonIgnore

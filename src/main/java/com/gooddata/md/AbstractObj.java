@@ -29,10 +29,6 @@ public abstract class AbstractObj implements Serializable {
         this.meta = meta;
     }
 
-    protected AbstractObj() {
-        this.meta = null;
-    }
-
     /**
      * Returns internally generated ID of the object (that's part of the object URI).
      * @return internal ID of the object

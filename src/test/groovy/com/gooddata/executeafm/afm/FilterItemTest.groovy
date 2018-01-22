@@ -15,7 +15,7 @@ class FilterItemTest extends Specification {
     @Unroll
     def "should deserialize as #type"() {
         when:
-        FilterItem filter = readObjectFromResource("/executeafm/afm/${type}.json", com.gooddata.executeafm.afm.FilterItem)
+        FilterItem filter = readObjectFromResource("/executeafm/afm/${type}.json", FilterItem)
 
         then:
         typeClass.isInstance(filter)

@@ -7,6 +7,7 @@
 package com.gooddata.visualizationObject;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.executeafm.afm.MeasureDefinition;
@@ -18,17 +19,15 @@ import com.gooddata.executeafm.afm.SimpleMeasureDefinition;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Measure extends MeasureItem implements BucketItem {
     static final String NAME = "measure";
-    public static final String MEASURE_DEFINITION = "measureDefinition";
-    public static final String POP_MEASURE_DEFINITION = "popMeasureDefinition";
 
     private String title;
 
     @JsonCreator
     public Measure(@JsonProperty("definition") final MeasureDefinition definition,
-                       @JsonProperty("localIdentifier") final String localIdentifier,
-                       @JsonProperty("alias") final String alias,
-                       @JsonProperty("title") final String title,
-                       @JsonProperty("format") final String format) {
+                   @JsonProperty("localIdentifier") final String localIdentifier,
+                   @JsonProperty("alias") final String alias,
+                   @JsonProperty("title") final String title,
+                   @JsonProperty("format") final String format) {
         super(definition, localIdentifier, alias, format);
         this.title = title;
     }
@@ -37,10 +36,12 @@ public class Measure extends MeasureItem implements BucketItem {
         return title;
     }
 
+    @JsonIgnore
     public boolean isPop() {
         return getDefinition() instanceof PopMeasureDefinition;
     }
 
+    @JsonIgnore
     public boolean hasComputeRatio() {
         return getDefinition().hasComputeRatio();
     }

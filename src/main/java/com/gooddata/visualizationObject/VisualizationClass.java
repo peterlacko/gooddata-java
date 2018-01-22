@@ -13,20 +13,20 @@ import java.io.Serializable;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
+import static org.apache.commons.lang3.Validate.notNull;
 
 @JsonTypeName(VisualizationClass.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VisualizationClass extends AbstractObj implements Serializable {
+public class VisualizationClass extends AbstractObj {
     static final String NAME = "visualizationClass";
 
     private Content content;
 
     public VisualizationClass(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta ) {
         super(meta);
-
-        this.content = content;
+        this.content = notNull(content);
     }
 
     public Content getContent()  {
@@ -66,10 +66,10 @@ public class VisualizationClass extends AbstractObj implements Serializable {
                 @JsonProperty("iconSelected") String iconSelected,
                 @JsonProperty("checksum") String checksum,
                 @JsonProperty("orderIndex") Float orderIndex) {
-            this.url = url;
-            this.icon = icon;
-            this.iconSelected = iconSelected;
-            this.checksum = checksum;
+            this.url = notNull(url);
+            this.icon = notNull(icon);
+            this.iconSelected = notNull(iconSelected);
+            this.checksum = notNull(checksum);
             this.orderIndex = orderIndex;
         }
 

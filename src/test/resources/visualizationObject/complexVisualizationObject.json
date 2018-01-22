@@ -1,13 +1,11 @@
 {
   "visualizationObject": {
     "meta": {
-      "title": "New insight",
-      "category": "visualizationObject",
-      "uri": "/gdc/md/FoodMartDemo/obj/1"
+      "title": "New insight"
     },
     "content": {
       "visualizationClass": {
-        "uri": "visClass1"
+        "uri": "visClass"
       },
       "buckets": [
         {
@@ -18,14 +16,8 @@
                 "localIdentifier": "attribute1",
                 "displayForm": {
                   "uri": "/uri/to/displayForm/1"
-                }
-              }
-            }, {
-              "visualizationAttribute": {
-                "localIdentifier": "attribute2",
-                "displayForm": {
-                  "uri": "/uri/to/displayForm/2"
-                }
+                },
+                "alias": "attributeAlias"
               }
             }
           ]
@@ -36,11 +28,14 @@
               "measure": {
                 "localIdentifier": "measure1",
                 "title": "Measure 1",
+                "alias": "Measure 1 alias",
                 "definition": {
                   "measureDefinition": {
                     "item": {
                       "uri": "/uri/to/measure/1"
                     },
+                    "aggregation": "sum",
+                    "computeRatio": false,
                     "filters": [
                       {
                         "positiveAttributeFilter": {
@@ -48,8 +43,8 @@
                             "uri": "/uri/to/displayForm/3"
                           },
                           "in": [
-                            "/uri/to/item/1",
-                            "/uri/to/item/2"
+                            "ab",
+                            "cd"
                           ]
                         }
                       }, {
@@ -58,8 +53,8 @@
                             "uri": "/uri/to/displayForm/3"
                           },
                           "notIn": [
-                            "/uri/to/item/1",
-                            "/uri/to/item/2"
+                            "ab",
+                            "cd"
                           ]
                         }
                       }, {
@@ -95,8 +90,8 @@
               "uri": "/uri/to/displayForm/3"
             },
             "in": [
-              "/uri/to/item/1",
-              "/uri/to/item/2"
+              "ab",
+              "cd"
             ]
           }
         }, {
@@ -105,8 +100,8 @@
               "uri": "/uri/to/displayForm/3"
             },
             "notIn": [
-              "/uri/to/item/1",
-              "/uri/to/item/2"
+              "ab",
+              "cd"
             ]
           }
         }, {

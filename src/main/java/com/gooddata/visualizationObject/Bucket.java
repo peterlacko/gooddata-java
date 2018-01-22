@@ -6,10 +6,7 @@
 
 package com.gooddata.visualizationObject;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,7 @@ public class Bucket {
         return items;
     }
 
+    @JsonIgnore
     public VisualizationAttribute getFirstAttribute() {
         return getItems().stream()
                 .filter(item -> item instanceof VisualizationAttribute)

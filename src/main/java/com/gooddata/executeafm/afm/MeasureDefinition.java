@@ -16,8 +16,8 @@ import com.gooddata.visualizationObject.Measure;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SimpleMeasureDefinition.class, name = SimpleMeasureDefinition.NAME),
         @JsonSubTypes.Type(value = PopMeasureDefinition.class, name = PopMeasureDefinition.NAME),
-        @JsonSubTypes.Type(value = SimpleMeasureDefinition.class, name = Measure.MEASURE_DEFINITION),
-        @JsonSubTypes.Type(value = PopMeasureDefinition.class, name = Measure.POP_MEASURE_DEFINITION),
+        @JsonSubTypes.Type(value = com.gooddata.visualizationObject.SimpleMeasureDefinition.class, name = com.gooddata.visualizationObject.SimpleMeasureDefinition.NAME),
+        @JsonSubTypes.Type(value = com.gooddata.visualizationObject.PopMeasureDefinition.class, name = com.gooddata.visualizationObject.PopMeasureDefinition.NAME),
 })
 public interface MeasureDefinition {
 

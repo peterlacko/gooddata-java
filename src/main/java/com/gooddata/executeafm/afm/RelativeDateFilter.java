@@ -12,7 +12,8 @@ import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
-import static org.apache.http.util.Args.notEmpty;
+import static com.gooddata.util.Validate.notEmpty;
+
 
 /**
  * Represents {@link DateFilter} specifying relative range of given granularity.
