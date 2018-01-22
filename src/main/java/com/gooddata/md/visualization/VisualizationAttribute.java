@@ -4,7 +4,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;

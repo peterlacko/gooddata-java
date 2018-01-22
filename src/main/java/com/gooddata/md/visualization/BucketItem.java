@@ -5,7 +5,7 @@
  */
 
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 

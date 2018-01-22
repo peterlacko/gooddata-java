@@ -5,27 +5,28 @@
  */
 
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
-import static com.gooddata.visualizationObject.CollectionType.*;
+import static com.gooddata.md.visualization.CollectionType.*;
 import static java.util.stream.Collectors.toList;
 
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.executeafm.afm.*;
 import com.gooddata.md.AbstractObj;
 import com.gooddata.md.Meta;
+import com.gooddata.md.Queryable;
+import com.gooddata.md.Updatable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonTypeName(VisualizationObject.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VisualizationObject extends AbstractObj {
+public class VisualizationObject extends AbstractObj implements Queryable, Updatable {
     static final String NAME = "visualizationObject";
     private Content content;
 
@@ -52,7 +53,7 @@ public class VisualizationObject extends AbstractObj {
     @JsonIgnore
     public List<Measure> getSimpleMeasures() {
         return getMeasures().stream()
-                .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition) // TODO
+                .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition)
                 .collect(toList());
     }
 
@@ -63,21 +64,11 @@ public class VisualizationObject extends AbstractObj {
 
     @JsonIgnore
     public VisualizationAttribute getAttributeFromCollection(final CollectionType type) {
-        Bucket collectionBucket = getContent().getBuckets().stream()
-                .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString())) // TODO
+        return getContent().getBuckets().stream()
+                .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString()))
                 .findFirst()
+                .map(bucket -> bucket.getOnlyAttribute())
                 .orElse(null);
-        if (collectionBucket == null) {
-            return null;
-        }
-
-        VisualizationAttribute attribute = collectionBucket.getFirstAttribute();
-
-        if (collectionBucket.getItems().size() != 1 || attribute == null) {
-           return null;
-        }
-
-        return attribute;
     }
 
     @JsonIgnore
@@ -147,39 +138,20 @@ public class VisualizationObject extends AbstractObj {
 
         @JsonIgnore
         public List<VisualizationAttribute> getAttributes() {
-            List<Bucket> buckets = getBuckets(); // TODO: rewrite this as well
-
-            final List<VisualizationAttribute> attributes = new ArrayList<>();
-            for(Bucket bucket: buckets) {
-                List<BucketItem> items = bucket.getItems();
-                for(BucketItem item: items) {
-                    if (item instanceof VisualizationAttribute) {
-                        attributes.add((VisualizationAttribute) item);
-                    }
-                }
-            }
-
-            return attributes;
+            return buckets.stream()
+                    .flatMap(bucket -> bucket.getItems().stream())
+                    .filter(VisualizationAttribute.class::isInstance)
+                    .map(VisualizationAttribute.class::cast)
+                    .collect(toList());
         }
 
         @JsonIgnore
         public List<Measure> getMeasures() {
-//            final List<Measure> measures = new ArrayList<>();
-//            for(Bucket bucket: buckets) {
-//                List<BucketItem> items = bucket.getItems();
-//                for(BucketItem item: items) {
-//                    if (item instanceof Measure) {
-//                        measures.add((Measure) item);
-//                    }
-//                }
-//            }
-            return buckets.stream() // TODO OK?
-                    .map(bucket -> bucket.getItems().stream()
-                            .filter(bucketItem -> bucketItem instanceof Measure)
-                            .collect(toList())
-                    )
-                    .flatMap(List::stream)
-                    .collect(ArrayList::new, List::add, List::addAll);
+            return buckets.stream()
+                    .flatMap(bucket -> bucket.getItems().stream())
+                    .filter(Measure.class::isInstance)
+                    .map(Measure.class::cast)
+                    .collect(toList());
         }
 
         @JsonIgnore
@@ -195,5 +167,8 @@ public class VisualizationObject extends AbstractObj {
             return properties;
         }
 
+        public UriObjQualifier getVisualizationClass() {
+            return visualizationClass;
+        }
     }
 }

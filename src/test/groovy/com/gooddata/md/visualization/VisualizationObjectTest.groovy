@@ -4,7 +4,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-package com.gooddata.visualizationObject
+package com.gooddata.md.visualization
 
 import com.gooddata.executeafm.UriObjQualifier
 import com.gooddata.executeafm.afm.AbsoluteDateFilter
@@ -20,7 +20,7 @@ import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource
 import static spock.util.matcher.HamcrestSupport.that
 
 class VisualizationObjectTest extends Specification {
-    private static final String COMPLEX_VISUALIZATION_OBJECT = "visualizationObject/complexVisualizationObject.json"
+    private static final String COMPLEX_VISUALIZATION_OBJECT = "md/visualization/complexVisualizationObject.json"
 
     def "should serialize full"() {
         VisualizationAttribute attribute1 = new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm/1"), "attribute1", "attributeAlias")

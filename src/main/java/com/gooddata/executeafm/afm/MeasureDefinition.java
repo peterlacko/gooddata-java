@@ -10,14 +10,13 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.UriObjQualifier;
-import com.gooddata.visualizationObject.Measure;
 
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = SimpleMeasureDefinition.class, name = SimpleMeasureDefinition.NAME),
         @JsonSubTypes.Type(value = PopMeasureDefinition.class, name = PopMeasureDefinition.NAME),
-        @JsonSubTypes.Type(value = com.gooddata.visualizationObject.SimpleMeasureDefinition.class, name = com.gooddata.visualizationObject.SimpleMeasureDefinition.NAME),
-        @JsonSubTypes.Type(value = com.gooddata.visualizationObject.PopMeasureDefinition.class, name = com.gooddata.visualizationObject.PopMeasureDefinition.NAME),
+        @JsonSubTypes.Type(value = com.gooddata.md.visualization.SimpleMeasureDefinition.class, name = com.gooddata.md.visualization.SimpleMeasureDefinition.NAME),
+        @JsonSubTypes.Type(value = com.gooddata.md.visualization.PopMeasureDefinition.class, name = com.gooddata.md.visualization.PopMeasureDefinition.NAME),
 })
 public interface MeasureDefinition {
 
@@ -50,7 +49,4 @@ public interface MeasureDefinition {
      */
     @JsonIgnore
     boolean isAdHoc();
-
-    @JsonIgnore
-    boolean hasComputeRatio();
 }

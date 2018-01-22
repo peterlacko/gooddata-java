@@ -3,7 +3,7 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 public enum CollectionType {
     SEGMENT,
@@ -11,7 +11,7 @@ public enum CollectionType {
     TREND,
     VIEW;
 
-    public String toString() {
+    public String getName() {
         return name().toLowerCase();
     }
 }

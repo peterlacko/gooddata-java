@@ -3,7 +3,7 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -11,9 +11,9 @@ import org.apache.commons.io.FileUtils
 import spock.lang.Specification
 
 class VisualizationClassTest extends Specification {
-    private static final String TABLE_VISUALIZATION_CLASS = "/visualizationObject/tableVisualizationClass.json"
-    private static final String BAR_VISUALIZATION_CLASS = "/visualizationObject/barVisualizationClass.json"
-    private static final String EXTERNAL_VISUALIZATION_CLASS = "/visualizationObject/externalVisualizationClass.json"
+    private static final String TABLE_VISUALIZATION_CLASS = "md/visualization/tableVisualizationClass.json"
+    private static final String BAR_VISUALIZATION_CLASS = "md/visualization/barVisualizationClass.json"
+    private static final String EXTERNAL_VISUALIZATION_CLASS = "md/visualization/externalVisualizationClass.json"
     ObjectMapper MAPPER = new ObjectMapper()
 
 
@@ -29,7 +29,7 @@ class VisualizationClassTest extends Specification {
     }
 
 
-    def "getVisualizationType should return type TABLE on external visualization"() {
+    def "getVisualizationType should return type TABLE on external md.visualization"() {
         when:
         visualizationClass = getVisualizationClass(EXTERNAL_VISUALIZATION_CLASS)
         VisualizationType type = visualizationClass.getVisualizationType()

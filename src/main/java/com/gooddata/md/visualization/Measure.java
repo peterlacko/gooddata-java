@@ -4,7 +4,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.executeafm.afm.MeasureDefinition;
 import com.gooddata.executeafm.afm.MeasureItem;
 import com.gooddata.executeafm.afm.PopMeasureDefinition;
-import com.gooddata.executeafm.afm.SimpleMeasureDefinition;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -43,6 +42,6 @@ public class Measure extends MeasureItem implements BucketItem {
 
     @JsonIgnore
     public boolean hasComputeRatio() {
-        return getDefinition().hasComputeRatio();
+        return getDefinition() instanceof SimpleMeasureDefinition ? true : false;
     }
 }

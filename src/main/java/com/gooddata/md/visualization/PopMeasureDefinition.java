@@ -1,4 +1,4 @@
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.gooddata.executeafm.ObjQualifier;
 
-import static com.gooddata.visualizationObject.PopMeasureDefinition.NAME;
+import static com.gooddata.md.visualization.PopMeasureDefinition.NAME;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(NAME)

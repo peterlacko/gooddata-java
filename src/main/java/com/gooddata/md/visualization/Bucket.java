@@ -4,7 +4,7 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 
@@ -38,5 +38,16 @@ public class Bucket {
                 .map(VisualizationAttribute.class::cast)
                 .findFirst()
                 .orElse(null);
+    }
+
+    @JsonIgnore
+    public VisualizationAttribute getOnlyAttribute() {
+        VisualizationAttribute firstAttribute = getFirstAttribute();
+
+        if (getItems().size() != 1 || firstAttribute == null) {
+            return null;
+        }
+
+        return firstAttribute;
     }
 }

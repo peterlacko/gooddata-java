@@ -1,4 +1,4 @@
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -9,7 +9,7 @@ import com.gooddata.executeafm.afm.FilterItem;
 
 import java.util.List;
 
-import static com.gooddata.visualizationObject.SimpleMeasureDefinition.NAME;
+import static com.gooddata.md.visualization.SimpleMeasureDefinition.NAME;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(NAME)

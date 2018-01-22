@@ -4,11 +4,14 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-package com.gooddata.visualizationObject;
+package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 import com.gooddata.md.AbstractObj;
 import com.gooddata.md.Meta;
+import com.gooddata.md.Queryable;
+import com.gooddata.md.Updatable;
+
 import java.io.Serializable;
 
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
@@ -19,7 +22,7 @@ import static org.apache.commons.lang3.Validate.notNull;
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class VisualizationClass extends AbstractObj {
+public class VisualizationClass extends AbstractObj implements Queryable, Updatable {
     static final String NAME = "visualizationClass";
 
     private Content content;
