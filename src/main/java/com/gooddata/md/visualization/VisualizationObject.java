@@ -12,6 +12,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static com.gooddata.md.visualization.CollectionType.*;
 import static java.util.stream.Collectors.toList;
+import static org.apache.commons.lang3.Validate.notNull;
 
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.executeafm.afm.*;
@@ -126,8 +127,8 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
                        @JsonProperty("filters") final List<FilterItem> filters,
                        @JsonProperty("properties") final String properties) {
 
-            this.visualizationClass = visualizationClass;
-            this.buckets = buckets;
+            this.visualizationClass = notNull(visualizationClass);
+            this.buckets = notNull(buckets);
             this.filters = filters;
             this.properties = properties;
         }
