@@ -123,7 +123,8 @@
           }
         }
       ],
-      "properties": "{\"key\":\"value\"}"
+      "properties": "{\"key\":\"value\"}",
+      "references": [{ "key": "value" }]
     }
   }
 }

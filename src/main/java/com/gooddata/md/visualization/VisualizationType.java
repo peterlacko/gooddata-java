@@ -6,7 +6,6 @@
 
 package com.gooddata.md.visualization;
 
-import com.gooddata.md.report.Total;
 import org.springframework.util.StringUtils;
 
 import static com.gooddata.util.Validate.notNull;
@@ -25,13 +24,13 @@ public enum VisualizationType {
     }
 
     public static VisualizationType get(final String type) {
-        notNull(type, "total");
+        notNull(type, "type");
         try {
             return VisualizationType.valueOf(type.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new UnsupportedOperationException(
-                    format("Unknown value for Grid's total: \"%s\", supported values are: [%s]",
-                            type, StringUtils.arrayToCommaDelimitedString(Total.values())),
+                    format("Unknown visualization type: \"%s\", supported types are: [%s]",
+                            type, StringUtils.arrayToCommaDelimitedString(VisualizationType.values())),
                     e);
         }
     }

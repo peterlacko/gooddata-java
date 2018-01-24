@@ -6,6 +6,9 @@
 
 package com.gooddata.md.visualization
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.gooddata.executeafm.UriObjQualifier
 import com.gooddata.executeafm.afm.AbsoluteDateFilter
 import com.gooddata.executeafm.afm.NegativeAttributeFilter
@@ -22,6 +25,8 @@ import static spock.util.matcher.HamcrestSupport.that
 class VisualizationObjectTest extends Specification {
     private static final String COMPLEX_VISUALIZATION_OBJECT = "md/visualization/complexVisualizationObject.json"
 
+    ObjectMapper mapper = new ObjectMapper();
+
     def "should serialize full"() {
         VisualizationAttribute attribute1 = new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm/1"), "attribute1", "attributeAlias")
         PositiveAttributeFilter positiveAttributeFilter = new PositiveAttributeFilter( new UriObjQualifier("/uri/to/displayForm/3"), ["ab", "cd"])
@@ -29,6 +34,10 @@ class VisualizationObjectTest extends Specification {
         AbsoluteDateFilter absoluteDateFilter = new AbsoluteDateFilter( new UriObjQualifier("/uri/to/dataSet/1"), new LocalDate("2000-08-30"), new LocalDate("2017-08-07"))
         RelativeDateFilter relativeDateFilter = new RelativeDateFilter( new UriObjQualifier("/uri/to/dataSet/2"), "month", 0, -11)
         SimpleMeasureDefinition measureDefinition = new SimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure/1"), "sum", false, [ positiveAttributeFilter, negativeAttributeFilter, absoluteDateFilter, relativeDateFilter ])
+        ArrayNode arrayNode = mapper.createArrayNode()
+        ObjectNode objectNode = mapper.createObjectNode();
+        objectNode.put("key", "value")
+        arrayNode.add(objectNode)
 
         expect:
         that new VisualizationObject(
@@ -52,7 +61,8 @@ class VisualizationObjectTest extends Specification {
                                 absoluteDateFilter,
                                 relativeDateFilter
                         ],
-                        "{\"key\":\"value\"}"
+                        "{\"key\":\"value\"}",
+                        arrayNode
                 ),
                 new Meta("New insight")
         ),

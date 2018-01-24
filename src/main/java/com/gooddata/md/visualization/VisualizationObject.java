@@ -14,6 +14,8 @@ import static com.gooddata.md.visualization.CollectionType.*;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.executeafm.afm.*;
 import com.gooddata.md.AbstractObj;
@@ -120,17 +122,24 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         private List<Bucket> buckets;
         private List<FilterItem> filters;
         private String properties;
+        private JsonNode referenceItems;
 
         @JsonCreator
         public Content(@JsonProperty("visualizationClass") final UriObjQualifier visualizationClass,
                        @JsonProperty("buckets") final List<Bucket> buckets,
                        @JsonProperty("filters") final List<FilterItem> filters,
-                       @JsonProperty("properties") final String properties) {
+                       @JsonProperty("properties") final String properties,
+                       @JsonProperty("references") final JsonNode referenceItems) {
 
             this.visualizationClass = notNull(visualizationClass);
             this.buckets = notNull(buckets);
             this.filters = filters;
             this.properties = properties;
+            if (referenceItems.isArray()) {
+                this.referenceItems = referenceItems;
+            } else {
+                this.referenceItems = null;
+            }
         }
 
         public List<Bucket> getBuckets() {
@@ -170,6 +179,17 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
         public UriObjQualifier getVisualizationClass() {
             return visualizationClass;
+        }
+
+        public JsonNode getReferences() {
+            return referenceItems;
+        }
+
+        @JsonIgnore
+        public String getReferencedItem(final String id) {
+            JsonNode uri = referenceItems.get(id);
+
+            return uri.getNodeType() == JsonNodeType.STRING ? uri.toString() : null;
         }
     }
 }

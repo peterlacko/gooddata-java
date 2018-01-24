@@ -5,16 +5,14 @@
  */
 package com.gooddata.md.visualization
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.apache.commons.io.FileUtils
 import spock.lang.Specification
 
+import static com.gooddata.util.ResourceUtils.readObjectFromResource
+
 class VisualizationClassTest extends Specification {
-    private static final String TABLE_VISUALIZATION_CLASS = "md/visualization/tableVisualizationClass.json"
-    private static final String BAR_VISUALIZATION_CLASS = "md/visualization/barVisualizationClass.json"
-    private static final String EXTERNAL_VISUALIZATION_CLASS = "md/visualization/externalVisualizationClass.json"
-    ObjectMapper MAPPER = new ObjectMapper()
+    private static final String TABLE_VISUALIZATION_CLASS = '/md/visualization/tableVisualizationClass.json'
+    private static final String BAR_VISUALIZATION_CLASS = '/md/visualization/barVisualizationClass.json'
+    private static final String EXTERNAL_VISUALIZATION_CLASS = '/md/visualization/externalVisualizationClass.json'
 
 
     private VisualizationClass visualizationClass
@@ -22,7 +20,7 @@ class VisualizationClassTest extends Specification {
 
     def "should serialize full"() {
         when:
-        visualizationClass = getVisualizationClass(TABLE_VISUALIZATION_CLASS)
+        visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
 
         then:
         visualizationClass != null
@@ -31,7 +29,7 @@ class VisualizationClassTest extends Specification {
 
     def "getVisualizationType should return type TABLE on external md.visualization"() {
         when:
-        visualizationClass = getVisualizationClass(EXTERNAL_VISUALIZATION_CLASS)
+        visualizationClass = readObjectFromResource(EXTERNAL_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationType type = visualizationClass.getVisualizationType()
 
         then:
@@ -40,7 +38,7 @@ class VisualizationClassTest extends Specification {
 
     def "getVisualizationType should return type TABLE"() {
         when:
-        visualizationClass = getVisualizationClass(TABLE_VISUALIZATION_CLASS)
+        visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationType type = visualizationClass.getVisualizationType()
 
         then:
@@ -49,19 +47,10 @@ class VisualizationClassTest extends Specification {
 
     def "getVisualizationType should return type BAR"() {
         when:
-        visualizationClass = getVisualizationClass(BAR_VISUALIZATION_CLASS)
+        visualizationClass = readObjectFromResource(BAR_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationType type = visualizationClass.getVisualizationType()
 
         then:
         type == VisualizationType.BAR
-    }
-
-    VisualizationClass getVisualizationClass(String file) {
-        URL fileUrl = VisualizationClass.class.getResource(file)
-        final String VISUALIZATION_CLASS_STRING = FileUtils.readFileToString(
-                new File(fileUrl.toURI()),
-                "utf-8")
-        JsonNode node = MAPPER.readTree(VISUALIZATION_CLASS_STRING)
-        return MAPPER.convertValue(node, VisualizationClass.class)
     }
 }
