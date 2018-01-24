@@ -21,7 +21,10 @@ import static java.util.Arrays.asList;
  */
 @JsonRootName(NegativeAttributeFilter.NAME)
 public class NegativeAttributeFilter extends AttributeFilter {
+
+    private static final long serialVersionUID = -6202625318104289333L;
     static final String NAME = "negativeAttributeFilter";
+    
     private final List<String> notIn;
 
     /**

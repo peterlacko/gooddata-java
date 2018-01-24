@@ -23,6 +23,8 @@ import static org.apache.commons.lang3.Validate.notNull;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VisualizationClass extends AbstractObj implements Queryable, Updatable {
+
+    private static final long serialVersionUID = -72785788784079208L;
     static final String NAME = "visualizationClass";
 
     private Content content;

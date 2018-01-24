@@ -11,12 +11,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.util.GoodDataToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * Represents measure within {@link Afm}
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class MeasureItem implements LocallyIdentifiable {
+public class MeasureItem implements LocallyIdentifiable, Serializable {
 
+    private static final long serialVersionUID = -8641866340075567437L;
     private final MeasureDefinition definition;
     private final String localIdentifier;
     private String alias;

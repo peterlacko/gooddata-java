@@ -22,7 +22,10 @@ import org.joda.time.LocalDate;
  */
 @JsonRootName(AbsoluteDateFilter.NAME)
 public class AbsoluteDateFilter extends DateFilter {
+
+    private static final long serialVersionUID = -1857726227400504182L;
     static final String NAME = "absoluteDateFilter";
+    
     private final LocalDate from;
     private final LocalDate to;
 

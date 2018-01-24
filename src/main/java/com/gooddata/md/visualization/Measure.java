@@ -17,6 +17,8 @@ import com.gooddata.executeafm.afm.PopMeasureDefinition;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Measure extends MeasureItem implements BucketItem {
+
+    private static final long serialVersionUID = -6311373783004640731L;
     static final String NAME = "measure";
 
     private String title;
@@ -42,6 +44,6 @@ public class Measure extends MeasureItem implements BucketItem {
 
     @JsonIgnore
     public boolean hasComputeRatio() {
-        return getDefinition() instanceof SimpleMeasureDefinition ? true : false;
+        return getDefinition() instanceof VOSimpleMeasureDefinition ? true : false;
     }
 }

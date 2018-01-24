@@ -20,7 +20,10 @@ import static com.gooddata.util.Validate.notEmpty;
  */
 @JsonRootName(RelativeDateFilter.NAME)
 public class RelativeDateFilter extends DateFilter {
+
+    private static final long serialVersionUID = 7257627800833737063L;
     static final String NAME = "relativeDateFilter";
+
     private final String granularity;
     private final Integer from;
     private final Integer to;

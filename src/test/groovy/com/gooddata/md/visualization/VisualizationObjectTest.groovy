@@ -33,7 +33,7 @@ class VisualizationObjectTest extends Specification {
         NegativeAttributeFilter negativeAttributeFilter = new NegativeAttributeFilter( new UriObjQualifier("/uri/to/displayForm/3"), ["ab", "cd"])
         AbsoluteDateFilter absoluteDateFilter = new AbsoluteDateFilter( new UriObjQualifier("/uri/to/dataSet/1"), new LocalDate("2000-08-30"), new LocalDate("2017-08-07"))
         RelativeDateFilter relativeDateFilter = new RelativeDateFilter( new UriObjQualifier("/uri/to/dataSet/2"), "month", 0, -11)
-        SimpleMeasureDefinition measureDefinition = new SimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure/1"), "sum", false, [ positiveAttributeFilter, negativeAttributeFilter, absoluteDateFilter, relativeDateFilter ])
+        VOSimpleMeasureDefinition measureDefinition = new VOSimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure/1"), "sum", false, [positiveAttributeFilter, negativeAttributeFilter, absoluteDateFilter, relativeDateFilter ])
         ArrayNode arrayNode = mapper.createArrayNode()
         ObjectNode objectNode = mapper.createObjectNode();
         objectNode.put("key", "value")

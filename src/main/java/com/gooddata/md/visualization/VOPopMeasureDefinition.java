@@ -6,15 +6,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.gooddata.executeafm.ObjQualifier;
 
-import static com.gooddata.md.visualization.PopMeasureDefinition.NAME;
+import static com.gooddata.md.visualization.VOPopMeasureDefinition.NAME;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(NAME)
-public class PopMeasureDefinition extends com.gooddata.executeafm.afm.PopMeasureDefinition {
+public class VOPopMeasureDefinition extends com.gooddata.executeafm.afm.PopMeasureDefinition {
+
+    private static final long serialVersionUID = -2727004914980057124L;
     public static final String NAME = "popMeasureDefinition";
 
     @JsonCreator
-    public PopMeasureDefinition(@JsonProperty("measureIdentifier") final String measureIdentifier,
+    public VOPopMeasureDefinition(@JsonProperty("measureIdentifier") final String measureIdentifier,
                                 @JsonProperty("popAttribute") final ObjQualifier popAttribute) {
         super(measureIdentifier, popAttribute);
     }

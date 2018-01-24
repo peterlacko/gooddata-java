@@ -8,11 +8,14 @@ package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Bucket {
+public class Bucket implements Serializable {
+
+    private static final long serialVersionUID = -7718720886547680021L;
     private String localIdentifier;
     private List<BucketItem> items;
 

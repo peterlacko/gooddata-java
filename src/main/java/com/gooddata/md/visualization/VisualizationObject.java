@@ -23,6 +23,7 @@ import com.gooddata.md.Meta;
 import com.gooddata.md.Queryable;
 import com.gooddata.md.Updatable;
 
+import java.io.Serializable;
 import java.util.List;
 
 @JsonTypeName(VisualizationObject.NAME)
@@ -56,7 +57,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     @JsonIgnore
     public List<Measure> getSimpleMeasures() {
         return getMeasures().stream()
-                .filter(measure -> measure.getDefinition() instanceof SimpleMeasureDefinition)
+                .filter(measure -> measure.getDefinition() instanceof VOSimpleMeasureDefinition)
                 .collect(toList());
     }
 
@@ -115,9 +116,19 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         return measures.stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
     }
 
+    @JsonIgnore
+    public String getItemById(String id) {
+        JsonNode referenceItems = getContent().getReferences();
+        JsonNode uri = referenceItems.get(id);
+
+        return uri.getNodeType() == JsonNodeType.STRING ? uri.toString() : null;
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private static class Content {
+    private static class Content implements Serializable {
+
+        private static final long serialVersionUID = 2895359822118041504L;
         private UriObjQualifier visualizationClass;
         private List<Bucket> buckets;
         private List<FilterItem> filters;
@@ -183,13 +194,6 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
         public JsonNode getReferences() {
             return referenceItems;
-        }
-
-        @JsonIgnore
-        public String getReferencedItem(final String id) {
-            JsonNode uri = referenceItems.get(id);
-
-            return uri.getNodeType() == JsonNodeType.STRING ? uri.toString() : null;
         }
     }
 }

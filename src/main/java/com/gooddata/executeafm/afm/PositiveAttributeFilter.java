@@ -21,6 +21,8 @@ import static java.util.Arrays.asList;
  */
 @JsonRootName(PositiveAttributeFilter.NAME)
 public class PositiveAttributeFilter extends AttributeFilter {
+
+    private static final long serialVersionUID = 1934771670274345290L;
     static final String NAME = "positiveAttributeFilter";
 
     private final List<String> in;
