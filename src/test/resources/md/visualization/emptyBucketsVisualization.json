@@ -1,0 +1,16 @@
+{
+  "visualizationObject": {
+    "meta": {
+      "title": "New insight"
+    },
+    "content": {
+      "visualizationClass": {
+        "uri": "visClass"
+      },
+      "buckets": [],
+      "filters": [],
+      "properties": "{\"key\":\"value\"}",
+      "references": { "key": "value" }
+    }
+  }
+}

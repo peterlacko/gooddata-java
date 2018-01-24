@@ -44,6 +44,7 @@ public class Measure extends MeasureItem implements BucketItem {
 
     @JsonIgnore
     public boolean hasComputeRatio() {
-        return getDefinition() instanceof VOSimpleMeasureDefinition ? true : false;
+
+        return getDefinition() instanceof VOSimpleMeasureDefinition && ((VOSimpleMeasureDefinition) getDefinition()).hasComputeRatio();
     }
 }

@@ -124,7 +124,7 @@
         }
       ],
       "properties": "{\"key\":\"value\"}",
-      "references": [{ "key": "value" }]
+      "references": { "key": "value", "foo": "bar" }
     }
   }
 }

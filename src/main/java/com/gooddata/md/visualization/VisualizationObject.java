@@ -15,6 +15,7 @@ import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.executeafm.afm.*;
@@ -24,7 +25,7 @@ import com.gooddata.md.Queryable;
 import com.gooddata.md.Updatable;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
 @JsonTypeName(VisualizationObject.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
@@ -69,7 +70,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     @JsonIgnore
     public VisualizationAttribute getAttributeFromCollection(final CollectionType type) {
         return getContent().getBuckets().stream()
-                .filter(bucket -> bucket.getLocalIdentifier().equals(type.toString()))
+                .filter(bucket -> bucket.getLocalIdentifier().equals(type.getName()))
                 .findFirst()
                 .map(bucket -> bucket.getOnlyAttribute())
                 .orElse(null);
@@ -118,10 +119,8 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
     @JsonIgnore
     public String getItemById(String id) {
-        JsonNode referenceItems = getContent().getReferences();
-        JsonNode uri = referenceItems.get(id);
-
-        return uri.getNodeType() == JsonNodeType.STRING ? uri.toString() : null;
+        Map<String, String> referenceItems = getContent().getReferences();
+        return referenceItems.get(id);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -133,7 +132,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         private List<Bucket> buckets;
         private List<FilterItem> filters;
         private String properties;
-        private JsonNode referenceItems;
+        private Map<String, String> referenceItems;
 
         @JsonCreator
         public Content(@JsonProperty("visualizationClass") final UriObjQualifier visualizationClass,
@@ -146,11 +145,21 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
             this.buckets = notNull(buckets);
             this.filters = filters;
             this.properties = properties;
-            if (referenceItems.isArray()) {
-                this.referenceItems = referenceItems;
-            } else {
-                this.referenceItems = null;
+            this.referenceItems = constructReferenceMap(referenceItems);
+        }
+
+        private Map<String, String> constructReferenceMap(JsonNode references) {
+            Iterator<Map.Entry<String, JsonNode>> refIterator = references.fields();
+
+            Map<String, String> referenceItems = new HashMap<>();
+            while(refIterator.hasNext()) {
+                Map.Entry<String, JsonNode> field = refIterator.next();
+                if (field.getValue().isTextual()) {
+                    referenceItems.put(field.getKey(), field.getValue().asText());
+                }
             }
+
+            return referenceItems;
         }
 
         public List<Bucket> getBuckets() {
@@ -192,7 +201,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
             return visualizationClass;
         }
 
-        public JsonNode getReferences() {
+        public Map<String, String> getReferences() {
             return referenceItems;
         }
     }
