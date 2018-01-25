@@ -6,6 +6,7 @@
 package com.gooddata.executeafm.afm
 
 import com.gooddata.executeafm.UriObjQualifier
+import org.apache.commons.lang3.SerializationUtils
 import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
@@ -67,5 +68,13 @@ class MeasureItemTest extends Specification {
         measureItem.alias == 'alias'
         measureItem.format == 'format'
         measureItem.toString()
+    }
+
+    def "test serializable"() {
+        MeasureItem measureItem = readObjectFromResource("/$MEASURE_ITEM_FULL_JSON", MeasureItem.class)
+        MeasureItem deserialized = SerializationUtils.roundtrip(measureItem)
+
+        expect:
+        that deserialized, jsonEquals(measureItem)
     }
 }

@@ -35,7 +35,7 @@ public class Bucket implements Serializable {
     }
 
     @JsonIgnore
-    public VisualizationAttribute getFirstAttribute() {
+    private VisualizationAttribute getFirstAttribute() {
         return getItems().stream()
                 .filter(item -> item instanceof VisualizationAttribute)
                 .map(VisualizationAttribute.class::cast)

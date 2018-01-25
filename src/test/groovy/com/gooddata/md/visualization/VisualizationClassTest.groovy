@@ -5,52 +5,65 @@
  */
 package com.gooddata.md.visualization
 
+import com.gooddata.md.Meta
+import org.apache.commons.lang3.SerializationUtils
 import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
+import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
+import static spock.util.matcher.HamcrestSupport.that
 
 class VisualizationClassTest extends Specification {
     private static final String TABLE_VISUALIZATION_CLASS = '/md/visualization/tableVisualizationClass.json'
     private static final String BAR_VISUALIZATION_CLASS = '/md/visualization/barVisualizationClass.json'
     private static final String EXTERNAL_VISUALIZATION_CLASS = '/md/visualization/externalVisualizationClass.json'
 
-
-    private VisualizationClass visualizationClass
-
-
     def "should serialize full"() {
-        when:
-        visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
+        VisualizationClass table = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
+        VisualizationClass external = readObjectFromResource(EXTERNAL_VISUALIZATION_CLASS, VisualizationClass)
 
-        then:
-        visualizationClass != null
+        expect:
+        that new VisualizationClass(
+                new VisualizationClass.Content("local:table", "icon", "iconSelected", "checksum", 0),
+                new Meta("visClass")
+        ),
+                jsonEquals(table)
+
+        and:
+        that new VisualizationClass(
+                new VisualizationClass.Content("https://some.vis", "icon", "iconSelected", "checksum", 0),
+                new Meta("external")
+        ),
+                jsonEquals(external)
     }
 
+    def "should check if visualization is local"() {
+        VisualizationClass visualizationClass = readObjectFromResource(resource, VisualizationClass)
 
-    def "getVisualizationType should return type TABLE on external md.visualization"() {
-        when:
-        visualizationClass = readObjectFromResource(EXTERNAL_VISUALIZATION_CLASS, VisualizationClass)
-        VisualizationType type = visualizationClass.getVisualizationType()
+        expect:
+        visualizationClass.isLocal() == expected
 
-        then:
-        type == VisualizationType.TABLE
+        where:
+        resource << [EXTERNAL_VISUALIZATION_CLASS, TABLE_VISUALIZATION_CLASS]
+        expected << [false, true]
     }
 
-    def "getVisualizationType should return type TABLE"() {
-        when:
-        visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
-        VisualizationType type = visualizationClass.getVisualizationType()
+    def "should return correct visualization type"() {
+        VisualizationClass visualizationClass = readObjectFromResource(resource, VisualizationClass)
 
-        then:
-        type == VisualizationType.TABLE
+        expect:
+        visualizationClass.getVisualizationType() == expected
+
+        where:
+        resource << [EXTERNAL_VISUALIZATION_CLASS, TABLE_VISUALIZATION_CLASS, BAR_VISUALIZATION_CLASS]
+        expected << [VisualizationType.TABLE, VisualizationType.TABLE, VisualizationType.BAR]
     }
 
-    def "getVisualizationType should return type BAR"() {
-        when:
-        visualizationClass = readObjectFromResource(BAR_VISUALIZATION_CLASS, VisualizationClass)
-        VisualizationType type = visualizationClass.getVisualizationType()
+    def "test serializable"() {
+        VisualizationClass visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass.class)
+        VisualizationClass deserialized = SerializationUtils.roundtrip(visualizationClass)
 
-        then:
-        type == VisualizationType.BAR
+        expect:
+        that deserialized, jsonEquals(visualizationClass)
     }
 }

@@ -11,12 +11,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
+import java.io.Serializable;
+
 /**
  * Represents attribute within {@link Afm}
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AttributeItem implements LocallyIdentifiable {
+public class AttributeItem implements LocallyIdentifiable, Serializable {
 
+    private static final long serialVersionUID = -1484150046473673413L;
     private final String localIdentifier;
     private final ObjQualifier displayForm;
     private String alias;

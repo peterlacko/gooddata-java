@@ -15,6 +15,8 @@ import com.gooddata.executeafm.afm.AttributeItem;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VisualizationAttribute extends AttributeItem implements BucketItem {
+
+    private static final long serialVersionUID = -5144496152695494774L;
     static final String NAME = "visualizationAttribute";
 
     @JsonCreator

@@ -14,6 +14,7 @@ import com.gooddata.executeafm.afm.NegativeAttributeFilter
 import com.gooddata.executeafm.afm.PositiveAttributeFilter
 import com.gooddata.executeafm.afm.RelativeDateFilter
 import com.gooddata.md.Meta
+import org.apache.commons.lang3.SerializationUtils
 import org.joda.time.LocalDate
 import spock.lang.Specification
 
@@ -24,13 +25,14 @@ import static spock.util.matcher.HamcrestSupport.that
 
 class VisualizationObjectTest extends Specification {
     private static final String COMPLEX_VISUALIZATION = "md/visualization/complexVisualizationObject.json"
+    private static final String SIMPLE_VISUALIZATION = "md/visualization/simpleVisualizationObject.json"
     private static final String STACKED_COLUMN_CHART = "md/visualization/stackedColumnChart.json"
     private static final String SEGMENTED_LINE_CHART = "md/visualization/segmentedLineChart.json"
     private static final String CUSTOM_CHART = "md/visualization/customChart.json"
     private static final String EMPTY_BUCKETS = "md/visualization/emptyBucketsVisualization.json"
     private static final String MULTIPLE_MEASURE_BUCKETS = "md/visualization/multipleMeasureBucketsVisualization.json"
 
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper()
 
     def "should serialize full"() {
         VisualizationAttribute attribute1 = new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm/1"), "attribute1", "attributeAlias")
@@ -68,25 +70,40 @@ class VisualizationObjectTest extends Specification {
                         "{\"key\":\"value\"}",
                         objectNode
                 ),
-                new Meta("New insight")
+                new Meta("complex")
         ),
                 jsonEquals(resource(COMPLEX_VISUALIZATION))
     }
 
-    def "GetAttributeFromCollection"() {
-        when:
+    def "should serialize"() {
+        expect:
+        that new VisualizationObject(
+                new VisualizationObject.Content(
+                        new UriObjQualifier("visClass"),
+                        [],
+                        null,
+                        null,
+                        null
+                ),
+                new Meta("simple")
+        ),
+                jsonEquals(resource(SIMPLE_VISUALIZATION))
+
+    }
+
+    def "should return null when invalid collection requested"() {
         VisualizationObject stackedChart = readObjectFromResource("/$STACKED_COLUMN_CHART", VisualizationObject)
         VisualizationObject customChart = readObjectFromResource("/$CUSTOM_CHART", VisualizationObject)
+
         VisualizationAttribute fromMissingCollection = stackedChart.getAttributeFromCollection(CollectionType.TREND)
         VisualizationAttribute missingAttribute = customChart.getAttributeFromCollection(CollectionType.VIEW)
 
-        then:
+        expect:
         fromMissingCollection == null
         missingAttribute == null
     }
 
-    def "GetView"() {
-        given:
+    def "return item in view collection"() {
         VisualizationObject visualizationObject = readObjectFromResource("/$STACKED_COLUMN_CHART", VisualizationObject)
         VisualizationAttribute view = visualizationObject.getView()
 
@@ -94,8 +111,7 @@ class VisualizationObjectTest extends Specification {
         that view, jsonEquals(visualizationObject.getBuckets().get(0).getItems().get(0))
     }
 
-    def "GetStack"() {
-        given:
+    def "return item in stack collection"() {
         VisualizationObject visualizationObject = readObjectFromResource("/$STACKED_COLUMN_CHART", VisualizationObject)
         VisualizationAttribute stack = visualizationObject.getStack()
 
@@ -103,8 +119,7 @@ class VisualizationObjectTest extends Specification {
         that stack, jsonEquals(visualizationObject.getBuckets().get(1).getItems().get(0))
     }
 
-    def "GetTrend"() {
-        given:
+    def "return item in trend collection"() {
         VisualizationObject visualizationObject = readObjectFromResource("/$SEGMENTED_LINE_CHART", VisualizationObject)
         VisualizationAttribute stack = visualizationObject.getTrend()
 
@@ -112,8 +127,7 @@ class VisualizationObjectTest extends Specification {
         that stack, jsonEquals(visualizationObject.getBuckets().get(0).getItems().get(0))
     }
 
-    def "GetSegment"() {
-        given:
+    def "return item in segment collection"() {
         VisualizationObject visualizationObject = readObjectFromResource("/$SEGMENTED_LINE_CHART", VisualizationObject)
         VisualizationAttribute stack = visualizationObject.getSegment()
 
@@ -121,26 +135,24 @@ class VisualizationObjectTest extends Specification {
         that stack, jsonEquals(visualizationObject.getBuckets().get(1).getItems().get(0))
     }
 
-    def "GetItemById"() {
-        when:
+    def "should return null when non-existing key rerquested"() {
         VisualizationObject complexVisualization = readObjectFromResource("/$COMPLEX_VISUALIZATION", VisualizationObject)
 
-        then:
+        expect:
         complexVisualization.getItemById("foo") == "bar"
 
         and:
         complexVisualization.getItemById("invalid") == null
     }
 
-    def "GetMeasures"() {
-        when:
+    def "should return measures"() {
         VisualizationObject multipleMeasuresVisualization = readObjectFromResource("/$MULTIPLE_MEASURE_BUCKETS", VisualizationObject)
         VisualizationObject noMeasuresVisualization = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
 
         List<Measure> multipleMeasures = multipleMeasuresVisualization.getMeasures()
         List<Measure> noMeasures = noMeasuresVisualization.getMeasures()
 
-        then:
+        expect:
         that multipleMeasures, jsonEquals(new ArrayList<>(Arrays.asList(
                 multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
                 multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0),
@@ -151,15 +163,14 @@ class VisualizationObjectTest extends Specification {
         noMeasures.isEmpty()
     }
 
-    def "GetSimpleMeasures"() {
-        when:
+    def "return only simple measures"() {
         VisualizationObject multipleMeasuresVisualization = readObjectFromResource("/$MULTIPLE_MEASURE_BUCKETS", VisualizationObject)
         VisualizationObject noMeasuresVisualization = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
 
         List<Measure> simpleMeasures = multipleMeasuresVisualization.getSimpleMeasures()
         List<Measure> noMeasures = noMeasuresVisualization.getSimpleMeasures()
 
-        then:
+        expect:
         that simpleMeasures, jsonEquals(new ArrayList<>(Arrays.asList(
                 multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
                 multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0)
@@ -169,15 +180,14 @@ class VisualizationObjectTest extends Specification {
         noMeasures.isEmpty()
     }
 
-    def "GetAttributes"() {
-        when:
+    def "should return attributes"() {
         VisualizationObject multipleAttributesVisualization = readObjectFromResource("/$SEGMENTED_LINE_CHART", VisualizationObject)
         VisualizationObject noAttributesVisualization = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
 
         List<VisualizationAttribute> multipleAttributes = multipleAttributesVisualization.getAttributes()
         List<VisualizationAttribute> noAttributes = noAttributesVisualization.getAttributes()
 
-        then:
+        expect:
         that multipleAttributes, jsonEquals(new ArrayList<>(Arrays.asList(
                 multipleAttributesVisualization.content.buckets.get(0).getItems().get(0),
                 multipleAttributesVisualization.content.buckets.get(1).getItems().get(0)
@@ -187,17 +197,24 @@ class VisualizationObjectTest extends Specification {
         noAttributes.isEmpty()
     }
 
-    def "HasDerivedMeasure"() {
-        when:
+    def "should check if visualization object has derived measures"() {
         VisualizationObject visualizationWithPop = readObjectFromResource("/$MULTIPLE_MEASURE_BUCKETS", VisualizationObject)
         VisualizationObject visualizationWithoutPop = readObjectFromResource("/$SEGMENTED_LINE_CHART", VisualizationObject)
         VisualizationObject noMeasuresVisualization = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
 
-        then:
+        expect:
         visualizationWithPop.hasDerivedMeasure()
 
         and:
         !visualizationWithoutPop.hasDerivedMeasure()
         !noMeasuresVisualization.hasDerivedMeasure()
+    }
+
+    def "test serializable"() {
+        VisualizationObject visualizationObject = readObjectFromResource("/$COMPLEX_VISUALIZATION", VisualizationObject.class)
+        VisualizationObject deserialized = SerializationUtils.roundtrip(visualizationObject)
+
+        expect:
+        that deserialized, jsonEquals(visualizationObject)
     }
 }

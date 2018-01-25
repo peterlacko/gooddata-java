@@ -39,11 +39,6 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
     }
 
     @JsonIgnore
-    public boolean isLocal() {
-        return getContent().getUrl().startsWith("local");
-    }
-
-    @JsonIgnore
     public VisualizationType getVisualizationType() {
         String uriParts[] = getContent().getUrl().split(":");
         String derivedType = uriParts[uriParts.length-1];
@@ -56,6 +51,12 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
 
         return visualizationType;
     }
+
+    @JsonIgnore
+    private boolean isLocal() {
+        return getContent().getUrl().startsWith("local");
+    }
+
 
     private static class Content implements Serializable {
         private String url;

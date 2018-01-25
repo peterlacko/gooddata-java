@@ -120,7 +120,11 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     @JsonIgnore
     public String getItemById(String id) {
         Map<String, String> referenceItems = getContent().getReferences();
-        return referenceItems.get(id);
+        if (referenceItems != null) {
+            return referenceItems.get(id);
+        }
+
+        return null;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -149,9 +153,14 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         }
 
         private Map<String, String> constructReferenceMap(JsonNode references) {
-            Iterator<Map.Entry<String, JsonNode>> refIterator = references.fields();
+            if (references == null) {
+                return null;
+            }
 
             Map<String, String> referenceItems = new HashMap<>();
+
+            Iterator<Map.Entry<String, JsonNode>> refIterator = references.fields();
+
             while(refIterator.hasNext()) {
                 Map.Entry<String, JsonNode> field = refIterator.next();
                 if (field.getValue().isTextual()) {

@@ -7,6 +7,7 @@ package com.gooddata.executeafm.afm
 
 import com.gooddata.executeafm.IdentifierObjQualifier
 import com.gooddata.executeafm.UriObjQualifier
+import org.apache.commons.lang3.SerializationUtils
 import org.joda.time.LocalDate
 import spock.lang.Specification
 
@@ -52,4 +53,11 @@ class AbsoluteDateFilterTest extends Specification {
         copy.getObjQualifier().getUri() == "uri"
     }
 
+    def "test serializable"() {
+        AbsoluteDateFilter dateFilter = readObjectFromResource("/$ABSOLUTE_DATE_FILTER_JSON", AbsoluteDateFilter.class)
+        AbsoluteDateFilter deserialized = SerializationUtils.roundtrip(dateFilter)
+
+        expect:
+        that deserialized, jsonEquals(dateFilter)
+    }
 }
