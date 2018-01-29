@@ -111,18 +111,19 @@ class VisualizationObjectTest extends Specification {
         missingAttribute == null
     }
 
-    def "return item in view collection"() {
+    @Unroll
+    def "return item in #name collection"() {
         VisualizationAttribute attribute = getter()
 
         expect:
         attribute == expected
 
         where:
-        getter                         | expected
-        stackedColumnChart.&getView    | stackedColumnChart.getBuckets().get(0).getItems().get(0)
-        stackedColumnChart.&getStack   | stackedColumnChart.getBuckets().get(1).getItems().get(0)
-        segmentedLineChart.&getTrend   | segmentedLineChart.getBuckets().get(0).getItems().get(0)
-        segmentedLineChart.&getSegment | segmentedLineChart.getBuckets().get(1).getItems().get(0)
+        name      | getter                         | expected
+        "view"    | stackedColumnChart.&getView    | stackedColumnChart.getBuckets().get(0).getItems().get(0)
+        "stack"   | stackedColumnChart.&getStack   | stackedColumnChart.getBuckets().get(1).getItems().get(0)
+        "trend"   | segmentedLineChart.&getTrend   | segmentedLineChart.getBuckets().get(0).getItems().get(0)
+        "segment" | segmentedLineChart.&getSegment | segmentedLineChart.getBuckets().get(1).getItems().get(0)
     }
 
     def "should return null when non-existing key requested"() {
@@ -180,7 +181,7 @@ class VisualizationObjectTest extends Specification {
         !noMeasuresVisualization.hasDerivedMeasure()
     }
 
-    @Unroll()
+    @Unroll
     def "should set #property"() {
         VisualizationObject empty = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
 
