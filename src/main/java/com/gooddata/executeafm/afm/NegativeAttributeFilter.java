@@ -71,7 +71,6 @@ public class NegativeAttributeFilter extends AttributeFilter {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(notIn);
     }
 

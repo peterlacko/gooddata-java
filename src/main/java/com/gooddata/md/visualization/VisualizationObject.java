@@ -3,28 +3,32 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 package com.gooddata.md.visualization;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static com.gooddata.md.visualization.CollectionType.*;
 import static java.util.stream.Collectors.toList;
 import static org.apache.commons.lang3.Validate.notNull;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.gooddata.executeafm.UriObjQualifier;
-import com.gooddata.executeafm.afm.*;
+import com.gooddata.executeafm.afm.FilterItem;
 import com.gooddata.md.AbstractObj;
 import com.gooddata.md.Meta;
 import com.gooddata.md.Queryable;
 import com.gooddata.md.Updatable;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Stores complete information about new visualization object that can be stored as MD to md server
@@ -70,7 +74,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     }
 
     /**
-     * Returns attribute from collection bucket, if and only if bucket contains only one item of type
+     * Returns attribute from collection bucket, if and only if bucket contains exactly one item of type
      * {@link VisualizationAttribute}, null otherwise
      * @param type of collection which we want to get, stored as local identifier in each bucket
      * @return attribute from collection bucket
@@ -235,7 +239,6 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
     @Override
     public int hashCode() {
-
         return Objects.hash(content);
     }
 
@@ -345,7 +348,6 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
         @Override
         public int hashCode() {
-
             return Objects.hash(visualizationClass, buckets, filters, properties, referenceItems);
         }
 

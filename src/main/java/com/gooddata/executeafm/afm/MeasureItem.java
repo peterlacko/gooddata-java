@@ -110,7 +110,6 @@ public class MeasureItem implements LocallyIdentifiable, Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(definition, localIdentifier, alias, format);
     }
 }

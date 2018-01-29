@@ -213,7 +213,6 @@ public class SimpleMeasureDefinition implements MeasureDefinition, Serializable 
 
     @Override
     public int hashCode() {
-
         return Objects.hash(item, aggregation, computeRatio, filters);
     }
 }

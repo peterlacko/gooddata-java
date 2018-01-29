@@ -83,7 +83,6 @@ public class PopMeasureDefinition implements MeasureDefinition, Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(measureIdentifier, popAttribute);
     }
 }

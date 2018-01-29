@@ -3,7 +3,6 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 package com.gooddata.md.visualization;
 
 import org.springframework.util.StringUtils;
@@ -20,7 +19,6 @@ public enum VisualizationType {
     COLUMN,
     BAR,
     PIE;
-
 
     public String getName() {
         return name().toLowerCase();

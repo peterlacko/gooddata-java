@@ -3,7 +3,6 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,7 +12,6 @@ import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.afm.AttributeItem;
 
 import static org.apache.commons.lang3.Validate.notNull;
-
 
 /**
  * Represents attribute item withing {@link Bucket}

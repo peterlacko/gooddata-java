@@ -3,10 +3,15 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 package com.gooddata.md.visualization;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.gooddata.md.AbstractObj;
 import com.gooddata.md.Meta;
 import com.gooddata.md.Queryable;
@@ -19,7 +24,7 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static org.apache.commons.lang3.Validate.notNull;
 
 /**
- * Class for holding information about visualization, including uri to its implementation, icons, order index a checksum
+ * Class for holding information about visualization, including uri to its implementation, icons, order index and checksum
  */
 @JsonTypeName(VisualizationClass.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
@@ -150,7 +155,6 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
         private String iconSelected;
         private String checksum;
         private Float orderIndex;
-
 
         @JsonCreator
         Content(@JsonProperty("url") String url,

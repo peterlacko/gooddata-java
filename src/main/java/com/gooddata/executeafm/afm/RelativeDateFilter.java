@@ -76,7 +76,6 @@ public class RelativeDateFilter extends DateFilter {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(granularity, from, to);
     }
 

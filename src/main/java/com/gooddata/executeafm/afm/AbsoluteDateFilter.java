@@ -78,7 +78,6 @@ public class AbsoluteDateFilter extends DateFilter {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(from, to);
     }
 

@@ -71,7 +71,6 @@ public class PositiveAttributeFilter extends AttributeFilter {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(in);
     }
 }

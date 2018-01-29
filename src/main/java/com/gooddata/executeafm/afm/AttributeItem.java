@@ -95,7 +95,6 @@ public class AttributeItem implements LocallyIdentifiable, Serializable {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(localIdentifier, displayForm, alias);
     }
 }

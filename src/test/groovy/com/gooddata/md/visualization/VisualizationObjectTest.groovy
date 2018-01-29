@@ -43,8 +43,6 @@ class VisualizationObjectTest extends Specification {
     @Shared
     VisualizationObject multipleMeasuresVisualization = readObjectFromResource("/$MULTIPLE_MEASURE_BUCKETS", VisualizationObject)
 
-    ObjectMapper mapper = new ObjectMapper()
-
     def "should serialize full"() {
         VisualizationAttribute attribute1 = new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm/1"), "attribute1", "attributeAlias")
         PositiveAttributeFilter positiveAttributeFilter = new PositiveAttributeFilter( new UriObjQualifier("/uri/to/displayForm/3"), ["ab", "cd"])
@@ -99,7 +97,6 @@ class VisualizationObjectTest extends Specification {
                 ),
                 new Meta("simple")
         ), jsonEquals(simpleVisualization)
-
     }
 
     def "should return null when invalid collection requested"() {

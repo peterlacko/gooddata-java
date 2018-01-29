@@ -3,7 +3,6 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE.txt file in the root directory of this source tree.
  */
-
 package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -62,8 +61,7 @@ public class Measure extends MeasureItem implements BucketItem {
     }
 
     /**
-     * Set measure title
-     * @param title
+     * @param title of measure
      */
     public void setTitle(String title) {
         this.title = title;
@@ -87,7 +85,6 @@ public class Measure extends MeasureItem implements BucketItem {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(title);
     }
 
