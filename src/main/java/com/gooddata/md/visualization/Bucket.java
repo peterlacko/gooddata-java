@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Represents bucket within {@link VisualizationObject}
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Bucket implements Serializable, LocallyIdentifiable {

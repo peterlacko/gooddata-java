@@ -16,6 +16,11 @@ import java.util.List;
 
 import static com.gooddata.md.visualization.VOSimpleMeasureDefinition.NAME;
 
+/**
+ * Simple measure definition to be used within {@link Measure}
+ * @deprecated identical with {@link com.gooddata.executeafm.afm.MeasureDefinition}, see issue #TBD // TODO
+ */
+@Deprecated
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(NAME)
 public class VOSimpleMeasureDefinition extends com.gooddata.executeafm.afm.SimpleMeasureDefinition {

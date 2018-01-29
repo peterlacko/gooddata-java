@@ -17,6 +17,9 @@ import com.gooddata.executeafm.afm.PopMeasureDefinition;
 import java.util.Objects;
 
 
+/**
+ * Represents measure item within {@link Bucket}
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Measure extends MeasureItem implements BucketItem {
 

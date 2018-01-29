@@ -9,6 +9,9 @@ package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
 
+/**
+ * Interface for bucket items within {@link Bucket}
+ */
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Measure.class, name = Measure.NAME),

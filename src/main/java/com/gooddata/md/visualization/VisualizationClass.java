@@ -18,6 +18,9 @@ import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.WRAPPER_OBJECT;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static org.apache.commons.lang3.Validate.notNull;
 
+/**
+ * Class for holding information about visualization, including uri to its implementation, icons, order index a checksum
+ */
 @JsonTypeName(VisualizationClass.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)

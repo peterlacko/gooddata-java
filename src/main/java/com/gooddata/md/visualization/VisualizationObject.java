@@ -26,6 +26,9 @@ import com.gooddata.md.Updatable;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Stores complete information about new visualization object that can be stored as MD to md server
+ */
 @JsonTypeName(VisualizationObject.NAME)
 @JsonTypeInfo(include = WRAPPER_OBJECT, use = NAME)
 @JsonIgnoreProperties(ignoreUnknown = true)

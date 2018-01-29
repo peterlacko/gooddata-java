@@ -15,6 +15,9 @@ import com.gooddata.executeafm.afm.AttributeItem;
 import static org.apache.commons.lang3.Validate.notNull;
 
 
+/**
+ * Represents attribute item withing {@link Bucket}
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VisualizationAttribute extends AttributeItem implements BucketItem {
 

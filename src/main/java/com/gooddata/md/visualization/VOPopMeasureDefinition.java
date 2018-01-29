@@ -13,6 +13,11 @@ import com.gooddata.executeafm.ObjQualifier;
 
 import static com.gooddata.md.visualization.VOPopMeasureDefinition.NAME;
 
+/**
+ * Period over Period measure definition to be used within {@link Measure}
+ * @deprecated identical with {@link com.gooddata.executeafm.afm.PopMeasureDefinition}, see issue #TBD // TODO
+ */
+@Deprecated
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonRootName(NAME)
 public class VOPopMeasureDefinition extends com.gooddata.executeafm.afm.PopMeasureDefinition {
