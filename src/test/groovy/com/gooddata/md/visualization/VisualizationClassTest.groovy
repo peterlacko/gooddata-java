@@ -8,6 +8,7 @@ package com.gooddata.md.visualization
 import com.gooddata.md.Meta
 import org.apache.commons.lang3.SerializationUtils
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
@@ -57,6 +58,21 @@ class VisualizationClassTest extends Specification {
         where:
         resource << [EXTERNAL_VISUALIZATION_CLASS, TABLE_VISUALIZATION_CLASS, BAR_VISUALIZATION_CLASS]
         expected << [VisualizationType.TABLE, VisualizationType.TABLE, VisualizationType.BAR]
+    }
+
+    @Unroll()
+    def "should set #property"() {
+        VisualizationClass tableClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
+        VisualizationClass barClass = readObjectFromResource(BAR_VISUALIZATION_CLASS, VisualizationClass)
+
+        when:
+        tableClass."set$property"(barClass."get$property"())
+
+        then:
+        tableClass."get$property"() == barClass."get$property"()
+
+        where:
+        property << ["Icon", "IconSelected", "Checksum", "OrderIndex", "Url"]
     }
 
     def "test serializable"() {

@@ -15,7 +15,9 @@ import static spock.util.matcher.HamcrestSupport.that
 
 class MeasureTest extends Specification {
     private static final String MULTIPLE_MEASURES_BUCKET = "md/visualization/multipleMeasuresBucket.json"
+    private static final String MEASURE_BUCKET = "md/visualization/measureBucket.json"
 
+    @Shared
     Bucket bucket = readObjectFromResource("/$MULTIPLE_MEASURES_BUCKET", Bucket)
     @Shared
     Measure measureWithCr = bucket.getItems().get(0)
@@ -42,6 +44,17 @@ class MeasureTest extends Specification {
         !measureWithoutCr.hasComputeRatio()
         !popMeasure.hasComputeRatio()
 
+    }
+
+    def "should set title"() {
+        Bucket measureBucket = readObjectFromResource("/$MEASURE_BUCKET", Bucket)
+        Measure measure = measureBucket.getItems().get(0)
+
+        when:
+        measure.setTitle("new title")
+
+        then:
+        measure.getTitle() == "new title"
     }
 
     def "test serializable"() {

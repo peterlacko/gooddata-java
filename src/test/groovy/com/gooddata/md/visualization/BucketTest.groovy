@@ -55,6 +55,25 @@ class BucketTest extends Specification {
         index << [null, 0, null, null]
     }
 
+    def "should set local identifier"() {
+        when:
+        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
+        bucket.setLocalIdentifier("new id")
+
+        then:
+        bucket.getLocalIdentifier() == "new id"
+    }
+
+    def "should set bucket items"() {
+        when:
+        Bucket noItemsBucket = readObjectFromResource("/$NO_ITEMS_BUCKET", Bucket)
+        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
+        noItemsBucket.setItems(bucket.getItems())
+
+        then:
+        noItemsBucket.getItems() == bucket.getItems()
+    }
+
     def "test serializable"() {
         Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
         Bucket deserialized = SerializationUtils.roundtrip(bucket)

@@ -18,6 +18,7 @@ import org.apache.commons.lang3.SerializationUtils
 import org.joda.time.LocalDate
 import spock.lang.Shared
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
@@ -190,6 +191,20 @@ class VisualizationObjectTest extends Specification {
         and:
         !visualizationWithoutPop.hasDerivedMeasure()
         !noMeasuresVisualization.hasDerivedMeasure()
+    }
+
+    @Unroll()
+    def "should set #property"() {
+        VisualizationObject empty = readObjectFromResource("/$EMPTY_BUCKETS", VisualizationObject)
+
+        when:
+        empty."set$property"(complexVisualization."get$property"())
+
+        then:
+        empty."get$property"() == complexVisualization."get$property"()
+
+        where:
+        property << ["VisualizationClass", "Buckets", "Filters", "Properties", "ReferenceItems"]
     }
 
     def "test serializable"() {

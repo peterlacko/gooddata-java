@@ -39,6 +39,10 @@ public class Measure extends MeasureItem implements BucketItem {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     @JsonIgnore
     public boolean isPop() {
         return getDefinition() instanceof PopMeasureDefinition;

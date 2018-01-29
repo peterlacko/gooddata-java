@@ -35,6 +35,15 @@ public class Bucket implements Serializable {
         return items;
     }
 
+    public void setItems(List<BucketItem> items) {
+        this.items = items;
+    }
+
+    public void setLocalIdentifier(String localIdentifier) {
+
+        this.localIdentifier = localIdentifier;
+    }
+
     @JsonIgnore
     private VisualizationAttribute getFirstAttribute() {
         return getItems().stream()

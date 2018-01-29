@@ -40,19 +40,6 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         this.content = notNull(content);
     }
 
-    public Content getContent() {
-        return content;
-    }
-
-    public void setContent(Content content) {
-        this.content = content;
-    }
-
-    @JsonIgnore
-    public List<Bucket> getBuckets() {
-        return getContent().getBuckets();
-    }
-
     @JsonIgnore
     public List<Measure> getMeasures() {
         return getContent().getMeasures();
@@ -105,8 +92,66 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     }
 
     @JsonIgnore
+    public List<Bucket> getBuckets() {
+        return getContent().getBuckets();
+    }
+
+    @JsonIgnore
+    public void setBuckets(List<Bucket> buckets) {
+        content.setBuckets(buckets);
+    }
+
+    @JsonIgnore
     public List<FilterItem> getFilters() {
         return getContent().getFilters();
+    }
+
+    @JsonIgnore
+    public void setFilters(List<FilterItem> filters) {
+        content.setFilters(filters);
+    }
+
+    @JsonIgnore
+    public String getProperties() {
+        return getContent().getProperties();
+    }
+
+    @JsonIgnore
+    public void setProperties(String properties) {
+        content.setProperties(properties);
+    }
+
+    @JsonIgnore
+    public Map<String, String> getReferenceItems() {
+        return getContent().getReferenceItems();
+    }
+
+    @JsonIgnore
+    public void setReferenceItems(Map<String, String> referenceItems) {
+        content.setReferenceItems(referenceItems);
+    }
+
+    public UriObjQualifier getVisualizationClass() {
+        return content.getVisualizationClass();
+    }
+
+    public void setVisualizationClass(UriObjQualifier uri) {
+        content.setVisualizationClass(uri);
+    }
+
+    @JsonIgnore
+    public boolean hasDerivedMeasure() {
+        return getMeasures().stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
+    }
+
+    @JsonIgnore
+    public String getItemById(String id) {
+        Map<String, String> referenceItems = getReferenceItems();
+        if (referenceItems != null) {
+            return referenceItems.get(id);
+        }
+
+        return null;
     }
 
     @Override
@@ -123,24 +168,8 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         return Objects.hash(content);
     }
 
-    @JsonIgnore
-    public String getProperties() {
-        return getContent().getProperties();
-    }
-
-    @JsonIgnore
-    public boolean hasDerivedMeasure() {
-        return getMeasures().stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
-    }
-
-    @JsonIgnore
-    public String getItemById(String id) {
-        Map<String, String> referenceItems = getContent().getReferences();
-        if (referenceItems != null) {
-            return referenceItems.get(id);
-        }
-
-        return null;
+    private Content getContent() {
+        return content;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -227,7 +256,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
             return visualizationClass;
         }
 
-        public Map<String, String> getReferences() {
+        public Map<String, String> getReferenceItems() {
             return referenceItems;
         }
 

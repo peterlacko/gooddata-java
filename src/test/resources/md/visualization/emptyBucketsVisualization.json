@@ -1,16 +1,16 @@
 {
   "visualizationObject": {
     "meta": {
-      "title": "New insight"
+      "title": "Empty buckets"
     },
     "content": {
       "visualizationClass": {
-        "uri": "visClass"
+        "uri": "https://empty"
       },
       "buckets": [],
       "filters": [],
-      "properties": "{\"key\":\"value\"}",
-      "references": { "key": "value" }
+      "properties": "{\"nokey\":\"novalue\"}",
+      "references": { "key": "novalue" }
     }
   }
 }

@@ -34,7 +34,57 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
         this.content = notNull(content);
     }
 
-    public Content getContent()  {
+    @JsonIgnore
+    public String getIcon() {
+        return getContent().getIcon();
+    }
+
+    @JsonIgnore
+    public void setIcon(String icon) {
+        content.setIcon(icon);
+    }
+
+    @JsonIgnore
+    public String getIconSelected() {
+        return getContent().getIconSelected();
+    }
+
+    @JsonIgnore
+    public void setIconSelected(String iconSelected) {
+        content.setIconSelected(iconSelected);
+    }
+
+    @JsonIgnore
+    public String getChecksum() {
+        return getContent().getChecksum();
+    }
+
+    @JsonIgnore
+    public void setChecksum(String checksum) {
+        content.setChecksum(checksum);
+    }
+
+    @JsonIgnore
+    public Float getOrderIndex() {
+        return getContent().getOrderIndex();
+    }
+
+    @JsonIgnore
+    public void setOrderIndex(Float orderIndex) {
+        content.setOrderIndex(orderIndex);
+    }
+
+    @JsonIgnore
+    public String getUrl() {
+        return getContent().getUrl();
+    }
+
+    @JsonIgnore
+    public void setUrl(String url) {
+        content.setUrl(url);
+    }
+
+    private Content getContent()  {
         return content;
     }
 
@@ -84,20 +134,40 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
             return url;
         }
 
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
         public String getIcon() {
             return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
         }
 
         public String getIconSelected() {
             return iconSelected;
         }
 
+        public void setIconSelected(String iconSelected) {
+            this.iconSelected = iconSelected;
+        }
+
         public String getChecksum() {
             return checksum;
         }
 
+        public void setChecksum(String checksum) {
+            this.checksum = checksum;
+        }
+
         public Float getOrderIndex() {
             return orderIndex;
+        }
+
+        public void setOrderIndex(Float orderIndex) {
+            this.orderIndex = orderIndex;
         }
     }
 }
