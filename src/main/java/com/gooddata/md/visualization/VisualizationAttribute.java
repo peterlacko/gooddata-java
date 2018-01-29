@@ -21,6 +21,12 @@ public class VisualizationAttribute extends AttributeItem implements BucketItem 
     private static final long serialVersionUID = -5144496152695494774L;
     static final String NAME = "visualizationAttribute";
 
+    /**
+     * Creates new instance of visualization attribute for use in {@link Bucket}
+     * @param displayForm display form of attribute
+     * @param localIdentifier local identifier of attribute
+     * @param alias alias of attribute
+     */
     @JsonCreator
     public VisualizationAttribute(@JsonProperty("displayForm") final ObjQualifier displayForm,
                                   @JsonProperty("localIdentifier") final String localIdentifier,

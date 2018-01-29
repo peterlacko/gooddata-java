@@ -20,6 +20,11 @@ public class VOPopMeasureDefinition extends com.gooddata.executeafm.afm.PopMeasu
     private static final long serialVersionUID = -2727004914980057124L;
     public static final String NAME = "popMeasureDefinition";
 
+    /**
+     * Creates instance of Period over Period measure definition to be used in {@link VisualizationObject}
+     * @param measureIdentifier reference to local identifier of {@link VOSimpleMeasureDefinition} over which is PoP calculated
+     * @param popAttribute uri to attribute used for PoP
+     */
     @JsonCreator
     public VOPopMeasureDefinition(@JsonProperty("measureIdentifier") final String measureIdentifier,
                                   @JsonProperty("popAttribute") final ObjQualifier popAttribute) {

@@ -23,6 +23,13 @@ public class VOSimpleMeasureDefinition extends com.gooddata.executeafm.afm.Simpl
     private static final long serialVersionUID = 8467311354259963694L;
     public static final String NAME = "measureDefinition";
 
+    /**
+     * Creates instance of simple measure definition to be used in {@link VisualizationObject}
+     * @param item uri to measure
+     * @param aggregation used aggregation function
+     * @param computeRatio indicates if result should be calculated in percents
+     * @param filters filters by which measure is filtered
+     */
     @JsonCreator
     public VOSimpleMeasureDefinition(@JsonProperty("item") final ObjQualifier item,
                                      @JsonProperty("aggregation") final String aggregation,

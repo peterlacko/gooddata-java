@@ -11,6 +11,9 @@ import org.springframework.util.StringUtils;
 import static com.gooddata.util.Validate.notNull;
 import static java.lang.String.format;
 
+/**
+ * Represents supported types of currently used visualizations
+ */
 public enum VisualizationType {
     TABLE,
     LINE,

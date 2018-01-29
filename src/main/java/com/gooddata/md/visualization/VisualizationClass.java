@@ -29,65 +29,94 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
 
     private Content content;
 
-    public VisualizationClass(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta ) {
+    private VisualizationClass(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta ) {
         super(meta);
         this.content = notNull(content);
     }
 
+    /**
+     * @return default icon for visualization, for local visualizations in form of 'local:{@link VisualizationType}'
+     */
     @JsonIgnore
     public String getIcon() {
         return getContent().getIcon();
     }
 
+    /**
+     * @param {set} default icon for visualization, for local visualizations in form of 'local:{@link VisualizationType}'
+     */
     @JsonIgnore
     public void setIcon(String icon) {
         content.setIcon(icon);
     }
 
+    /**
+     * @return icon displayed on mouse over, for local visualizations in form of 'local:{@link VisualizationType}.selected'
+     */
     @JsonIgnore
     public String getIconSelected() {
         return getContent().getIconSelected();
     }
 
+    /**
+     * @param iconSelected icon displayed on mouse over, for local visualizations in form of 'local:{@link VisualizationType}.selected'
+     */
     @JsonIgnore
     public void setIconSelected(String iconSelected) {
         content.setIconSelected(iconSelected);
     }
 
+    /**
+     * @return checksum of visualization class, 'local' for local visualizations
+     */
     @JsonIgnore
     public String getChecksum() {
         return getContent().getChecksum();
     }
 
+    /**
+     * @param checksum checksum of visualization class, 'local' for local visualizations
+     */
     @JsonIgnore
     public void setChecksum(String checksum) {
         content.setChecksum(checksum);
     }
 
+    /**
+     * @return absolute position of icon in list
+     */
     @JsonIgnore
     public Float getOrderIndex() {
         return getContent().getOrderIndex();
     }
 
+    /**
+     * @param orderIndex determining icon's position in the list
+     */
     @JsonIgnore
     public void setOrderIndex(Float orderIndex) {
         content.setOrderIndex(orderIndex);
     }
 
+    /**
+     * @return uri to implementation of visualization, for local visualizations in form of 'local:{@link VisualizationType}'
+     */
     @JsonIgnore
     public String getUrl() {
         return getContent().getUrl();
     }
 
+    /**
+     * @param url pointing to implementation of visualization, for local visualizations in form of 'local:{@link VisualizationType}'
+     */
     @JsonIgnore
     public void setUrl(String url) {
         content.setUrl(url);
     }
 
-    private Content getContent()  {
-        return content;
-    }
-
+    /**
+     * @return type of visualization, table by default
+     */
     @JsonIgnore
     public VisualizationType getVisualizationType() {
         VisualizationType visualizationType = VisualizationType.TABLE;
@@ -105,9 +134,12 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
 
     @JsonIgnore
     private boolean isLocal() {
-        return getContent().getUrl().startsWith("local");
+        return getContent().getChecksum() == "local";
     }
 
+    private Content getContent()  {
+        return content;
+    }
 
     private static class Content implements Serializable {
         private String url;

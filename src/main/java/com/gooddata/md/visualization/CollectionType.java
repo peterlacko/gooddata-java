@@ -5,6 +5,10 @@
  */
 package com.gooddata.md.visualization;
 
+
+/**
+ * Represents type of collection that can be used as local identifiers for {@link Bucket}
+ */
 public enum CollectionType {
     SEGMENT,
     STACK,

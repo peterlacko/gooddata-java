@@ -25,6 +25,14 @@ public class Measure extends MeasureItem implements BucketItem {
 
     private String title;
 
+    /**
+     * Creates new instance of measure for use in {@link VisualizationObject}
+     * @param definition measure definition
+     * @param localIdentifier local identifier
+     * @param alias alias for measure title
+     * @param title default name given to measure
+     * @param format format of measure to be computed
+     */
     @JsonCreator
     public Measure(@JsonProperty("definition") final MeasureDefinition definition,
                    @JsonProperty("localIdentifier") final String localIdentifier,
@@ -35,17 +43,35 @@ public class Measure extends MeasureItem implements BucketItem {
         this.title = title;
     }
 
+    /**
+     * @return true if measure definition has compute ratio set to true, false otherwise
+     */
+    @JsonIgnore
+    public boolean hasComputeRatio() {
+        return getDefinition() instanceof VOSimpleMeasureDefinition && ((VOSimpleMeasureDefinition) getDefinition()).hasComputeRatio();
+    }
+
+    /**
+     * @return title of measure
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * Set measure title
+     * @param title
+     */
     public void setTitle(String title) {
         this.title = title;
     }
 
+    /**
+     * @return true if measure contains {@link VOPopMeasureDefinition}, false otherwise
+     */
     @JsonIgnore
     public boolean isPop() {
-        return getDefinition() instanceof PopMeasureDefinition;
+        return getDefinition() instanceof VOPopMeasureDefinition;
     }
 
     @Override
@@ -62,9 +88,4 @@ public class Measure extends MeasureItem implements BucketItem {
         return Objects.hash(title);
     }
 
-    @JsonIgnore
-    public boolean hasComputeRatio() {
-
-        return getDefinition() instanceof VOSimpleMeasureDefinition && ((VOSimpleMeasureDefinition) getDefinition()).hasComputeRatio();
-    }
 }
