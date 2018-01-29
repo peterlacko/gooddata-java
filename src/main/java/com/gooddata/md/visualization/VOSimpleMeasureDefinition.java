@@ -18,7 +18,7 @@ import static com.gooddata.md.visualization.VOSimpleMeasureDefinition.NAME;
 
 /**
  * Simple measure definition to be used within {@link Measure}
- * @deprecated identical with {@link com.gooddata.executeafm.afm.MeasureDefinition}, see issue #TBD // TODO
+ * @deprecated identical with {@link com.gooddata.executeafm.afm.MeasureDefinition}, see https://github.com/gooddata/gooddata-java/issues/581
  */
 @Deprecated
 @JsonInclude(JsonInclude.Include.NON_NULL)

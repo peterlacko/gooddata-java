@@ -15,7 +15,7 @@ import static com.gooddata.md.visualization.VOPopMeasureDefinition.NAME;
 
 /**
  * Period over Period measure definition to be used within {@link Measure}
- * @deprecated identical with {@link com.gooddata.executeafm.afm.PopMeasureDefinition}, see issue #TBD // TODO
+ * @deprecated identical with {@link com.gooddata.executeafm.afm.PopMeasureDefinition}, see https://github.com/gooddata/gooddata-java/issues/581
  */
 @Deprecated
 @JsonInclude(JsonInclude.Include.NON_NULL)
