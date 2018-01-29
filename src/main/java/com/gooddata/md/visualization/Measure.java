@@ -14,6 +14,8 @@ import com.gooddata.executeafm.afm.MeasureDefinition;
 import com.gooddata.executeafm.afm.MeasureItem;
 import com.gooddata.executeafm.afm.PopMeasureDefinition;
 
+import java.util.Objects;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Measure extends MeasureItem implements BucketItem {
@@ -40,6 +42,20 @@ public class Measure extends MeasureItem implements BucketItem {
     @JsonIgnore
     public boolean isPop() {
         return getDefinition() instanceof PopMeasureDefinition;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Measure measure = (Measure) o;
+        return super.equals(measure) && Objects.equals(title, measure.title);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(title);
     }
 
     @JsonIgnore

@@ -16,6 +16,7 @@ import com.gooddata.util.GoodDataToStringBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static com.gooddata.executeafm.afm.SimpleMeasureDefinition.NAME;
 import static com.gooddata.util.Validate.notNull;
@@ -197,6 +198,23 @@ public class SimpleMeasureDefinition implements MeasureDefinition, Serializable 
     @Override
     public String toString() {
         return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleMeasureDefinition that = (SimpleMeasureDefinition) o;
+        return Objects.equals(item, that.item) &&
+                Objects.equals(aggregation, that.aggregation) &&
+                Objects.equals(computeRatio, that.computeRatio) &&
+                Objects.equals(filters, that.filters);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(item, aggregation, computeRatio, filters);
     }
 }
 

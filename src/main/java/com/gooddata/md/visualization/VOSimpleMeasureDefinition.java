@@ -30,4 +30,10 @@ public class VOSimpleMeasureDefinition extends com.gooddata.executeafm.afm.Simpl
                                      @JsonProperty("filters") final List<FilterItem> filters) {
         super(item, aggregation, computeRatio, filters);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return super.equals(obj);
+    }
 }

@@ -22,7 +22,13 @@ public class VOPopMeasureDefinition extends com.gooddata.executeafm.afm.PopMeasu
 
     @JsonCreator
     public VOPopMeasureDefinition(@JsonProperty("measureIdentifier") final String measureIdentifier,
-                                @JsonProperty("popAttribute") final ObjQualifier popAttribute) {
+                                  @JsonProperty("popAttribute") final ObjQualifier popAttribute) {
         super(measureIdentifier, popAttribute);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return super.equals(obj);
     }
 }

@@ -23,10 +23,9 @@ public enum VisualizationType {
         return name().toLowerCase();
     }
 
-    public static VisualizationType get(final String type) {
-        notNull(type, "type");
+    public static VisualizationType of(final String type) {
         try {
-            return VisualizationType.valueOf(type.toUpperCase());
+            return VisualizationType.valueOf(notNull(type, "type").toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new UnsupportedOperationException(
                     format("Unknown visualization type: \"%s\", supported types are: [%s]",

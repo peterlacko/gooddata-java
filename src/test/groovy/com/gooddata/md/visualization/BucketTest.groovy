@@ -30,16 +30,16 @@ class BucketTest extends Specification {
 
     def "should serialize full"() {
         expect:
-        that new Bucket("attributeBucket", new ArrayList<BucketItem>(Arrays.asList(
+        that new Bucket("attributeBucket", [
                 new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm"), "attribute", "Attribute Alias"),
                 new Measure(
-                        new VOSimpleMeasureDefinition( new UriObjQualifier("/uri/to/measure"), "sum", false, []),
+                        new VOSimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure"), "sum", false, []),
                         "measure",
                         "Measure Alias",
                         "Measure",
                         null
                 )
-        ))), jsonEquals(resource(MIXED_BUCKET))
+        ]), jsonEquals(resource(MIXED_BUCKET))
     }
 
     def "should return only attribute from bucket"() {
@@ -56,7 +56,7 @@ class BucketTest extends Specification {
     }
 
     def "test serializable"() {
-        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket.class)
+        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
         Bucket deserialized = SerializationUtils.roundtrip(bucket)
 
         expect:

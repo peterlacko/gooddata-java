@@ -13,6 +13,7 @@ import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.util.Arrays.asList;
 
@@ -58,5 +59,19 @@ public class PositiveAttributeFilter extends AttributeFilter {
     @Override
     public String toString() {
         return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PositiveAttributeFilter that = (PositiveAttributeFilter) o;
+        return Objects.equals(in, that.in);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(in);
     }
 }

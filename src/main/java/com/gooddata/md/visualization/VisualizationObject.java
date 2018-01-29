@@ -4,7 +4,6 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-
 package com.gooddata.md.visualization;
 
 import com.fasterxml.jackson.annotation.*;
@@ -38,11 +37,15 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     @JsonCreator
     public VisualizationObject(@JsonProperty("content") final Content content, @JsonProperty("meta") final Meta meta) {
         super(meta);
-        this.content = content;
+        this.content = notNull(content);
     }
 
     public Content getContent() {
         return content;
+    }
+
+    public void setContent(Content content) {
+        this.content = content;
     }
 
     @JsonIgnore
@@ -70,9 +73,9 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
     @JsonIgnore
     public VisualizationAttribute getAttributeFromCollection(final CollectionType type) {
         return getContent().getBuckets().stream()
-                .filter(bucket -> bucket.getLocalIdentifier().equals(type.getName()))
+                .filter(bucket -> type.isValueOf(bucket.getLocalIdentifier()))
                 .findFirst()
-                .map(bucket -> bucket.getOnlyAttribute())
+                .map(Bucket::getOnlyAttribute)
                 .orElse(null);
     }
 
@@ -106,6 +109,20 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         return getContent().getFilters();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VisualizationObject that = (VisualizationObject) o;
+        return Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(content);
+    }
+
     @JsonIgnore
     public String getProperties() {
         return getContent().getProperties();
@@ -113,8 +130,7 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
 
     @JsonIgnore
     public boolean hasDerivedMeasure() {
-        List<Measure> measures = getMeasures();
-        return measures.stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
+        return getMeasures().stream().anyMatch(measure -> measure.isPop() || measure.hasComputeRatio());
     }
 
     @JsonIgnore
@@ -143,32 +159,13 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
                        @JsonProperty("buckets") final List<Bucket> buckets,
                        @JsonProperty("filters") final List<FilterItem> filters,
                        @JsonProperty("properties") final String properties,
-                       @JsonProperty("references") final JsonNode referenceItems) {
+                       @JsonProperty("references") final Map<String, String> referenceItems) {
 
             this.visualizationClass = notNull(visualizationClass);
             this.buckets = notNull(buckets);
             this.filters = filters;
             this.properties = properties;
-            this.referenceItems = constructReferenceMap(referenceItems);
-        }
-
-        private Map<String, String> constructReferenceMap(JsonNode references) {
-            if (references == null) {
-                return null;
-            }
-
-            Map<String, String> referenceItems = new HashMap<>();
-
-            Iterator<Map.Entry<String, JsonNode>> refIterator = references.fields();
-
-            while(refIterator.hasNext()) {
-                Map.Entry<String, JsonNode> field = refIterator.next();
-                if (field.getValue().isTextual()) {
-                    referenceItems.put(field.getKey(), field.getValue().asText());
-                }
-            }
-
-            return referenceItems;
+            this.referenceItems = referenceItems;
         }
 
         public List<Bucket> getBuckets() {
@@ -182,6 +179,26 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
                     .filter(VisualizationAttribute.class::isInstance)
                     .map(VisualizationAttribute.class::cast)
                     .collect(toList());
+        }
+
+        public void setVisualizationClass(UriObjQualifier visualizationClass) {
+            this.visualizationClass = visualizationClass;
+        }
+
+        public void setBuckets(List<Bucket> buckets) {
+            this.buckets = buckets;
+        }
+
+        public void setFilters(List<FilterItem> filters) {
+            this.filters = filters;
+        }
+
+        public void setProperties(String properties) {
+            this.properties = properties;
+        }
+
+        public void setReferenceItems(Map<String, String> referenceItems) {
+            this.referenceItems = referenceItems;
         }
 
         @JsonIgnore
@@ -213,5 +230,24 @@ public class VisualizationObject extends AbstractObj implements Queryable, Updat
         public Map<String, String> getReferences() {
             return referenceItems;
         }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Content content = (Content) o;
+            return Objects.equals(visualizationClass, content.visualizationClass) &&
+                    Objects.equals(buckets, content.buckets) &&
+                    Objects.equals(filters, content.filters) &&
+                    Objects.equals(properties, content.properties) &&
+                    Objects.equals(referenceItems, content.referenceItems);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(visualizationClass, buckets, filters, properties, referenceItems);
+        }
+
     }
 }

@@ -37,7 +37,7 @@ class UriObjQualifierTest extends Specification {
     }
 
     def "test serializable"() {
-        UriObjQualifier uriObjQualifier = readObjectFromResource("/$QUALIFIER_JSON", UriObjQualifier.class)
+        UriObjQualifier uriObjQualifier = readObjectFromResource("/$QUALIFIER_JSON", UriObjQualifier)
         UriObjQualifier deserialized = SerializationUtils.roundtrip(uriObjQualifier)
 
         expect:

@@ -38,7 +38,7 @@ class IdentifierObjQualifierTest extends Specification {
     }
 
     def "test serializable"() {
-        IdentifierObjQualifier qualifier = readObjectFromResource("/$QUALIFIER_JSON", IdentifierObjQualifier.class)
+        IdentifierObjQualifier qualifier = readObjectFromResource("/$QUALIFIER_JSON", IdentifierObjQualifier)
         IdentifierObjQualifier deserialized = SerializationUtils.roundtrip(qualifier)
 
         expect:

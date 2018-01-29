@@ -12,6 +12,7 @@ import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents attribute within {@link Afm}
@@ -22,6 +23,7 @@ public class AttributeItem implements LocallyIdentifiable, Serializable {
     private static final long serialVersionUID = -1484150046473673413L;
     private final String localIdentifier;
     private final ObjQualifier displayForm;
+
     private String alias;
 
     /**
@@ -79,6 +81,22 @@ public class AttributeItem implements LocallyIdentifiable, Serializable {
     @Override
     public String toString() {
         return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AttributeItem that = (AttributeItem) o;
+        return Objects.equals(localIdentifier, that.localIdentifier) &&
+                Objects.equals(displayForm, that.displayForm) &&
+                Objects.equals(alias, that.alias);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(localIdentifier, displayForm, alias);
     }
 }
 

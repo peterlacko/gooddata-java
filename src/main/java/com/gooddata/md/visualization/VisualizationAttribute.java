@@ -12,6 +12,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.afm.AttributeItem;
 
+import static org.apache.commons.lang3.Validate.notNull;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class VisualizationAttribute extends AttributeItem implements BucketItem {

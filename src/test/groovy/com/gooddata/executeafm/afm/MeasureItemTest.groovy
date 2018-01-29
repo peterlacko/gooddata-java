@@ -71,7 +71,7 @@ class MeasureItemTest extends Specification {
     }
 
     def "test serializable"() {
-        MeasureItem measureItem = readObjectFromResource("/$MEASURE_ITEM_FULL_JSON", MeasureItem.class)
+        MeasureItem measureItem = readObjectFromResource("/$MEASURE_ITEM_FULL_JSON", MeasureItem)
         MeasureItem deserialized = SerializationUtils.roundtrip(measureItem)
 
         expect:

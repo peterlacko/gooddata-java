@@ -54,7 +54,7 @@ class AbsoluteDateFilterTest extends Specification {
     }
 
     def "test serializable"() {
-        AbsoluteDateFilter dateFilter = readObjectFromResource("/$ABSOLUTE_DATE_FILTER_JSON", AbsoluteDateFilter.class)
+        AbsoluteDateFilter dateFilter = readObjectFromResource("/$ABSOLUTE_DATE_FILTER_JSON", AbsoluteDateFilter)
         AbsoluteDateFilter deserialized = SerializationUtils.roundtrip(dateFilter)
 
         expect:

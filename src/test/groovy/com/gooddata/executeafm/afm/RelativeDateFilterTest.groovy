@@ -50,7 +50,7 @@ class RelativeDateFilterTest extends Specification {
     }
 
     def "test serializable"() {
-        RelativeDateFilter dateFilter = readObjectFromResource("/$RELATIVE_DATE_FILTER_JSON", RelativeDateFilter.class)
+        RelativeDateFilter dateFilter = readObjectFromResource("/$RELATIVE_DATE_FILTER_JSON", RelativeDateFilter)
         RelativeDateFilter deserialized = SerializationUtils.roundtrip(dateFilter)
 
         expect:

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -37,7 +38,7 @@ public class Bucket implements Serializable {
     @JsonIgnore
     private VisualizationAttribute getFirstAttribute() {
         return getItems().stream()
-                .filter(item -> item instanceof VisualizationAttribute)
+                .filter(VisualizationAttribute.class::isInstance)
                 .map(VisualizationAttribute.class::cast)
                 .findFirst()
                 .orElse(null);
@@ -52,5 +53,21 @@ public class Bucket implements Serializable {
         }
 
         return firstAttribute;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bucket bucket = (Bucket) o;
+        return Objects.equals(localIdentifier, bucket.localIdentifier) &&
+                Objects.equals(items, bucket.items);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(localIdentifier, items);
     }
 }

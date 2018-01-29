@@ -12,6 +12,8 @@ import com.gooddata.executeafm.ObjQualifier;
 import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
+import java.util.Objects;
+
 import static com.gooddata.util.Validate.notEmpty;
 
 
@@ -60,6 +62,22 @@ public class RelativeDateFilter extends DateFilter {
     @Override
     public FilterItem withObjUriQualifier(final UriObjQualifier qualifier) {
         return new RelativeDateFilter(qualifier, granularity, from, to);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RelativeDateFilter that = (RelativeDateFilter) o;
+        return Objects.equals(granularity, that.granularity) &&
+                Objects.equals(from, that.from) &&
+                Objects.equals(to, that.to);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(granularity, from, to);
     }
 
     @Override

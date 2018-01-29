@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Represents measure within {@link Afm}
@@ -94,5 +95,22 @@ public class MeasureItem implements LocallyIdentifiable, Serializable {
     @JsonIgnore
     public boolean isAdHoc() {
         return definition.isAdHoc();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MeasureItem that = (MeasureItem) o;
+        return Objects.equals(definition, that.definition) &&
+               Objects.equals(localIdentifier, that.localIdentifier) &&
+               Objects.equals(alias, that.alias) &&
+               Objects.equals(format, that.format);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(definition, localIdentifier, alias, format);
     }
 }

@@ -60,7 +60,7 @@ class VisualizationClassTest extends Specification {
     }
 
     def "test serializable"() {
-        VisualizationClass visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass.class)
+        VisualizationClass visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationClass deserialized = SerializationUtils.roundtrip(visualizationClass)
 
         expect:

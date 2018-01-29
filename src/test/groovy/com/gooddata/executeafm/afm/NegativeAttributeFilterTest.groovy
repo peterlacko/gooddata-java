@@ -50,7 +50,7 @@ class NegativeAttributeFilterTest extends Specification {
     }
 
     def "test serializable"() {
-        NegativeAttributeFilter attributeFilter = readObjectFromResource("/$NEGATIVE_ATTRIBUTE_FILTER_JSON", NegativeAttributeFilter.class)
+        NegativeAttributeFilter attributeFilter = readObjectFromResource("/$NEGATIVE_ATTRIBUTE_FILTER_JSON", NegativeAttributeFilter)
         NegativeAttributeFilter deserialized = SerializationUtils.roundtrip(attributeFilter)
 
         expect:

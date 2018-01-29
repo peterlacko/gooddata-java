@@ -46,7 +46,7 @@ class PopMeasureDefinitionTest extends Specification {
     }
 
     def "test serializable"() {
-        PopMeasureDefinition measureDefinition = readObjectFromResource("/$POP_MEASURE_DEFINITION_JSON", PopMeasureDefinition.class)
+        PopMeasureDefinition measureDefinition = readObjectFromResource("/$POP_MEASURE_DEFINITION_JSON", PopMeasureDefinition)
         PopMeasureDefinition deserialized = SerializationUtils.roundtrip(measureDefinition)
 
         expect:

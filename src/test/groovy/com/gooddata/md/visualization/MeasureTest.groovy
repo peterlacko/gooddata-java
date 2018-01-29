@@ -6,6 +6,7 @@
 package com.gooddata.md.visualization
 
 import org.apache.commons.lang3.SerializationUtils
+import spock.lang.Shared
 import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
@@ -16,8 +17,11 @@ class MeasureTest extends Specification {
     private static final String MULTIPLE_MEASURES_BUCKET = "md/visualization/multipleMeasuresBucket.json"
 
     Bucket bucket = readObjectFromResource("/$MULTIPLE_MEASURES_BUCKET", Bucket)
+    @Shared
     Measure measureWithCr = bucket.getItems().get(0)
+    @Shared
     Measure measureWithoutCr = bucket.getItems().get(1)
+    @Shared
     Measure popMeasure = bucket.getItems().get(2)
 
     def "should check if is pop measure"() {

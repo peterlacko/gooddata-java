@@ -17,6 +17,8 @@ import com.gooddata.util.GDDateSerializer;
 import com.gooddata.util.GoodDataToStringBuilder;
 import org.joda.time.LocalDate;
 
+import java.util.Objects;
+
 /**
  * Represents {@link DateFilter} specifying exact from and to dates.
  */
@@ -63,6 +65,21 @@ public class AbsoluteDateFilter extends DateFilter {
     @Override
     public FilterItem withObjUriQualifier(final UriObjQualifier qualifier) {
         return new AbsoluteDateFilter(qualifier, from, to);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbsoluteDateFilter that = (AbsoluteDateFilter) o;
+        return Objects.equals(from, that.from) &&
+                Objects.equals(to, that.to);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(from, to);
     }
 
     @Override

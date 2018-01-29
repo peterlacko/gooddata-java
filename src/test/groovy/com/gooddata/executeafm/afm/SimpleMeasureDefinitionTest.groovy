@@ -105,7 +105,7 @@ class SimpleMeasureDefinitionTest extends Specification {
     }
 
     def "test serializable"() {
-        SimpleMeasureDefinition measureDefinition = readObjectFromResource("/$SIMPLE_MEASURE_DEFINITION_FULL_JSON", SimpleMeasureDefinition.class)
+        SimpleMeasureDefinition measureDefinition = readObjectFromResource("/$SIMPLE_MEASURE_DEFINITION_FULL_JSON", SimpleMeasureDefinition)
         SimpleMeasureDefinition deserialized = SerializationUtils.roundtrip(measureDefinition)
 
         expect:

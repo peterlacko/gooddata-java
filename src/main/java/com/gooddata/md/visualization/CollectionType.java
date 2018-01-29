@@ -14,4 +14,8 @@ public enum CollectionType {
     public String getName() {
         return name().toLowerCase();
     }
+
+    boolean isValueOf(final String type) {
+        return getName().equals(type.toLowerCase());
+    }
 }

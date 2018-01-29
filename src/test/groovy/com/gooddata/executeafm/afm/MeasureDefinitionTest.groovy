@@ -37,5 +37,4 @@ class MeasureDefinitionTest extends Specification {
         def exception = thrown(UnsupportedOperationException)
         exception.message == "This definition has no URI"
     }
-
 }

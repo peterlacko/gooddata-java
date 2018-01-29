@@ -12,6 +12,7 @@ import com.gooddata.executeafm.UriObjQualifier;
 import com.gooddata.util.GoodDataToStringBuilder;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import static com.gooddata.executeafm.afm.PopMeasureDefinition.NAME;
 
@@ -69,5 +70,20 @@ public class PopMeasureDefinition implements MeasureDefinition, Serializable {
     @Override
     public String toString() {
         return GoodDataToStringBuilder.defaultToString(this);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PopMeasureDefinition that = (PopMeasureDefinition) o;
+        return Objects.equals(measureIdentifier, that.measureIdentifier) &&
+                Objects.equals(popAttribute, that.popAttribute);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(measureIdentifier, popAttribute);
     }
 }

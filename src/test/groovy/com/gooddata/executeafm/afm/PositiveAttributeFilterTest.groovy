@@ -50,7 +50,7 @@ class PositiveAttributeFilterTest extends Specification {
     }
 
     def "test serializable"() {
-        PositiveAttributeFilter attributeFilter = readObjectFromResource("/$POSITIVE_ATTRIBUTE_FILTER_JSON", PositiveAttributeFilter.class)
+        PositiveAttributeFilter attributeFilter = readObjectFromResource("/$POSITIVE_ATTRIBUTE_FILTER_JSON", PositiveAttributeFilter)
         PositiveAttributeFilter deserialized = SerializationUtils.roundtrip(attributeFilter)
 
         expect:

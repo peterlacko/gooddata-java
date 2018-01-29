@@ -40,13 +40,14 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
 
     @JsonIgnore
     public VisualizationType getVisualizationType() {
-        String uriParts[] = getContent().getUrl().split(":");
-        String derivedType = uriParts[uriParts.length-1];
-
         VisualizationType visualizationType = VisualizationType.TABLE;
 
-        if (isLocal()) {
-            visualizationType = VisualizationType.get(derivedType);
+        String uriParts[] = getContent().getUrl().split(":");
+
+        if (uriParts.length > 0 && isLocal()) {
+            String derivedType = uriParts[uriParts.length-1];
+
+            visualizationType = VisualizationType.of(derivedType);
         }
 
         return visualizationType;
