@@ -7,6 +7,7 @@ package com.gooddata.md.visualization
 
 import com.gooddata.md.Meta
 import org.apache.commons.lang3.SerializationUtils
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -19,8 +20,10 @@ class VisualizationClassTest extends Specification {
     private static final String BAR_VISUALIZATION_CLASS = '/md/visualization/barVisualizationClass.json'
     private static final String EXTERNAL_VISUALIZATION_CLASS = '/md/visualization/externalVisualizationClass.json'
 
+    @Shared
+    VisualizationClass tableVisualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
+
     def "should serialize full"() {
-        VisualizationClass table = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationClass external = readObjectFromResource(EXTERNAL_VISUALIZATION_CLASS, VisualizationClass)
 
         expect:
@@ -28,7 +31,7 @@ class VisualizationClassTest extends Specification {
                 new VisualizationClass.Content("local:table", "icon", "iconSelected", "checksum", 0),
                 new Meta("visClass")
         ),
-                jsonEquals(table)
+                jsonEquals(tableVisualizationClass)
 
         and:
         that new VisualizationClass(
@@ -45,8 +48,9 @@ class VisualizationClassTest extends Specification {
         visualizationClass.isLocal() == expected
 
         where:
-        resource << [EXTERNAL_VISUALIZATION_CLASS, TABLE_VISUALIZATION_CLASS]
-        expected << [false, true]
+        resource                     | expected
+        EXTERNAL_VISUALIZATION_CLASS | false
+        TABLE_VISUALIZATION_CLASS    | true
     }
 
     def "should return correct visualization type"() {
@@ -56,30 +60,30 @@ class VisualizationClassTest extends Specification {
         visualizationClass.getVisualizationType() == expected
 
         where:
-        resource << [EXTERNAL_VISUALIZATION_CLASS, TABLE_VISUALIZATION_CLASS, BAR_VISUALIZATION_CLASS]
-        expected << [VisualizationType.TABLE, VisualizationType.TABLE, VisualizationType.BAR]
+        resource                     | expected
+        EXTERNAL_VISUALIZATION_CLASS | VisualizationType.TABLE
+        TABLE_VISUALIZATION_CLASS    | VisualizationType.TABLE
+        BAR_VISUALIZATION_CLASS      | VisualizationType.BAR
     }
 
     @Unroll()
     def "should set #property"() {
-        VisualizationClass tableClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
         VisualizationClass barClass = readObjectFromResource(BAR_VISUALIZATION_CLASS, VisualizationClass)
 
         when:
-        tableClass."set$property"(barClass."get$property"())
+        barClass."set$property"(tableVisualizationClass."get$property"())
 
         then:
-        tableClass."get$property"() == barClass."get$property"()
+        barClass."get$property"() == tableVisualizationClass."get$property"()
 
         where:
         property << ["Icon", "IconSelected", "Checksum", "OrderIndex", "Url"]
     }
 
     def "test serializable"() {
-        VisualizationClass visualizationClass = readObjectFromResource(TABLE_VISUALIZATION_CLASS, VisualizationClass)
-        VisualizationClass deserialized = SerializationUtils.roundtrip(visualizationClass)
+        VisualizationClass deserialized = SerializationUtils.roundtrip(tableVisualizationClass)
 
         expect:
-        that deserialized, jsonEquals(visualizationClass)
+        that deserialized, jsonEquals(tableVisualizationClass)
     }
 }

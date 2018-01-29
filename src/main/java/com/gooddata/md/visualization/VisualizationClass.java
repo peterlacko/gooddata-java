@@ -134,7 +134,7 @@ public class VisualizationClass extends AbstractObj implements Queryable, Updata
 
     @JsonIgnore
     private boolean isLocal() {
-        return getContent().getChecksum() == "local";
+        return getContent().getChecksum().equals("local");
     }
 
     private Content getContent()  {

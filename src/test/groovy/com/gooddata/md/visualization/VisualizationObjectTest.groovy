@@ -6,7 +6,6 @@
 
 package com.gooddata.md.visualization
 
-import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.gooddata.executeafm.UriObjQualifier
 import com.gooddata.executeafm.afm.AbsoluteDateFilter
@@ -22,7 +21,6 @@ import spock.lang.Unroll
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
 import static net.javacrumbs.jsonunit.JsonMatchers.jsonEquals
-import static net.javacrumbs.jsonunit.core.util.ResourceUtils.resource
 import static spock.util.matcher.HamcrestSupport.that
 
 class VisualizationObjectTest extends Specification {
@@ -45,7 +43,6 @@ class VisualizationObjectTest extends Specification {
     @Shared
     VisualizationObject multipleMeasuresVisualization = readObjectFromResource("/$MULTIPLE_MEASURE_BUCKETS", VisualizationObject)
 
-
     ObjectMapper mapper = new ObjectMapper()
 
     def "should serialize full"() {
@@ -55,9 +52,9 @@ class VisualizationObjectTest extends Specification {
         AbsoluteDateFilter absoluteDateFilter = new AbsoluteDateFilter( new UriObjQualifier("/uri/to/dataSet/1"), new LocalDate("2000-08-30"), new LocalDate("2017-08-07"))
         RelativeDateFilter relativeDateFilter = new RelativeDateFilter( new UriObjQualifier("/uri/to/dataSet/2"), "month", 0, -11)
         VOSimpleMeasureDefinition measureDefinition = new VOSimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure/1"), "sum", false, [positiveAttributeFilter, negativeAttributeFilter, absoluteDateFilter, relativeDateFilter ])
-        JsonNode objectNode = mapper.createObjectNode()
-        objectNode.put("key", "value")
-        objectNode.put("foo", "bar")
+        Map<String, String> references = new HashMap<>()
+        references.put("key", "value")
+        references.put("foo", "bar")
 
         expect:
         that new VisualizationObject(
@@ -82,14 +79,15 @@ class VisualizationObjectTest extends Specification {
                                 relativeDateFilter
                         ],
                         "{\"key\":\"value\"}",
-                        objectNode
+                        references
                 ),
                 new Meta("complex")
-        ),
-                jsonEquals(complexVisualization)
+        ), jsonEquals(complexVisualization)
     }
 
     def "should serialize"() {
+        VisualizationObject simpleVisualization = readObjectFromResource("/$SIMPLE_VISUALIZATION", VisualizationObject)
+
         expect:
         that new VisualizationObject(
                 new VisualizationObject.Content(
@@ -100,8 +98,7 @@ class VisualizationObjectTest extends Specification {
                         null
                 ),
                 new Meta("simple")
-        ),
-                jsonEquals(resource(SIMPLE_VISUALIZATION))
+        ), jsonEquals(simpleVisualization)
 
     }
 
@@ -118,19 +115,17 @@ class VisualizationObjectTest extends Specification {
     }
 
     def "return item in view collection"() {
-        VisualizationAttribute view = fun()
+        VisualizationAttribute attribute = getter()
 
         expect:
-        that view, jsonEquals(expected)
+        attribute == expected
 
         where:
-        fun << [ stackedColumnChart.&getView, stackedColumnChart.&getStack, segmentedLineChart.&getTrend, segmentedLineChart.&getSegment ]
-        expected << [
-                stackedColumnChart.getBuckets().get(0).getItems().get(0),
-                stackedColumnChart.getBuckets().get(1).getItems().get(0),
-                segmentedLineChart.getBuckets().get(0).getItems().get(0),
-                segmentedLineChart.getBuckets().get(1).getItems().get(0)
-        ]
+        getter                         | expected
+        stackedColumnChart.&getView    | stackedColumnChart.getBuckets().get(0).getItems().get(0)
+        stackedColumnChart.&getStack   | stackedColumnChart.getBuckets().get(1).getItems().get(0)
+        segmentedLineChart.&getTrend   | segmentedLineChart.getBuckets().get(0).getItems().get(0)
+        segmentedLineChart.&getSegment | segmentedLineChart.getBuckets().get(1).getItems().get(0)
     }
 
     def "should return null when non-existing key requested"() {
@@ -142,42 +137,37 @@ class VisualizationObjectTest extends Specification {
     }
 
     def "should return measures"() {
-        VisualizationObject noMeasuresVisualization = emptyBucketsVisualization
-
         expect:
-        that measures, jsonEquals(expected)
+        measures == expected
 
         where:
-        measures << [ multipleMeasuresVisualization.getMeasures(), noMeasuresVisualization.getMeasures()]
-        expected << [[ // is equal when in collection
-                multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
-                multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0),
-                multipleMeasuresVisualization.content.buckets.get(1).getItems().get(1),
-        ], []]
+        measures                                    | expected
+        multipleMeasuresVisualization.getMeasures() | [ multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
+                                                        multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0),
+                                                        multipleMeasuresVisualization.content.buckets.get(1).getItems().get(1) ]
+        emptyBucketsVisualization.getMeasures()       | []
     }
 
     def "return only simple measures"() {
         expect:
-        that measures, jsonEquals(expected)
+        measures == expected
 
         where:
-        measures << [multipleMeasuresVisualization.getSimpleMeasures(), emptyBucketsVisualization.getSimpleMeasures()]
-        expected << [[
-                multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
-                multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0)
-        ], []]
+        measures                                          | expected
+        multipleMeasuresVisualization.getSimpleMeasures() | [ multipleMeasuresVisualization.content.buckets.get(0).getItems().get(0),
+                                                              multipleMeasuresVisualization.content.buckets.get(1).getItems().get(0) ]
+        emptyBucketsVisualization.getSimpleMeasures()     | []
     }
 
     def "should return attributes"() {
         expect:
-        that attributes, jsonEquals(expected)
+        attributes == expected
 
         where:
-        attributes << [segmentedLineChart.getAttributes(), emptyBucketsVisualization.getAttributes()]
-        expected << [[
-                segmentedLineChart.content.buckets.get(0).getItems().get(0),
-                segmentedLineChart.content.buckets.get(1).getItems().get(0)
-                     ], []]
+        attributes                                | expected
+        segmentedLineChart.getAttributes()        | [ segmentedLineChart.content.buckets.get(0).getItems().get(0),
+                                                      segmentedLineChart.content.buckets.get(1).getItems().get(0) ]
+        emptyBucketsVisualization.getAttributes() | []
     }
 
     def "should check if visualization object has derived measures"() {

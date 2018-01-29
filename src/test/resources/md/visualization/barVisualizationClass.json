@@ -4,7 +4,7 @@
       "url": "local:bar",
       "icon": "icon",
       "iconSelected": "iconSelected",
-      "checksum": "checksum",
+      "checksum": "local",
       "orderIndex": 0
     },
     "meta": {

@@ -4,7 +4,7 @@
       "url": "https://some.vis",
       "icon": "icon",
       "iconSelected": "iconSelected",
-      "checksum": "checksum",
+      "checksum": "external",
       "orderIndex": 0
     },
     "meta": {

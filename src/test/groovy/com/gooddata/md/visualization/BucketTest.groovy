@@ -7,6 +7,7 @@ package com.gooddata.md.visualization
 
 import com.gooddata.executeafm.UriObjQualifier
 import org.apache.commons.lang3.SerializationUtils
+import spock.lang.Shared
 import spock.lang.Specification
 
 import static com.gooddata.util.ResourceUtils.readObjectFromResource
@@ -21,6 +22,9 @@ class BucketTest extends Specification {
     private static final String MEASURE_BUCKET = "md/visualization/measureBucket.json"
     private static final String MULTIPLE_ATTRIBUTES_BUCKET = "md/visualization/multipleAttributesBucket.json"
 
+    @Shared
+    Bucket mixedBucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
+
     def "should serialize empty"() {
         Bucket noItemsBucket = readObjectFromResource("/$NO_ITEMS_BUCKET", Bucket)
 
@@ -30,7 +34,7 @@ class BucketTest extends Specification {
 
     def "should serialize full"() {
         expect:
-        that new Bucket("attributeBucket", [
+        new Bucket("attributeBucket", [
                 new VisualizationAttribute(new UriObjQualifier("/uri/to/displayForm"), "attribute", "Attribute Alias"),
                 new Measure(
                         new VOSimpleMeasureDefinition(new UriObjQualifier("/uri/to/measure"), "sum", false, []),
@@ -39,7 +43,7 @@ class BucketTest extends Specification {
                         "Measure",
                         null
                 )
-        ]), jsonEquals(resource(MIXED_BUCKET))
+        ]) == mixedBucket
     }
 
     def "should return only attribute from bucket"() {
@@ -51,8 +55,11 @@ class BucketTest extends Specification {
 
         where:
         // exactly one attributeItem in bucket is required
-        resource << [NO_ITEMS_BUCKET, ATTRIBUTE_BUCKET, MEASURE_BUCKET, MULTIPLE_ATTRIBUTES_BUCKET]
-        index << [null, 0, null, null]
+        resource                   | index
+        NO_ITEMS_BUCKET            | null
+        ATTRIBUTE_BUCKET           | 0
+        MEASURE_BUCKET             | null
+        MULTIPLE_ATTRIBUTES_BUCKET | null
     }
 
     def "should set local identifier"() {
@@ -61,24 +68,23 @@ class BucketTest extends Specification {
         bucket.setLocalIdentifier("new id")
 
         then:
-        bucket.getLocalIdentifier() == "new id"
+        bucket.getLocalIdentifier() == ("new id")
     }
 
     def "should set bucket items"() {
-        when:
         Bucket noItemsBucket = readObjectFromResource("/$NO_ITEMS_BUCKET", Bucket)
-        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
-        noItemsBucket.setItems(bucket.getItems())
+
+        when:
+        noItemsBucket.setItems(mixedBucket.getItems())
 
         then:
-        noItemsBucket.getItems() == bucket.getItems()
+        noItemsBucket.getItems() == mixedBucket.getItems()
     }
 
     def "test serializable"() {
-        Bucket bucket = readObjectFromResource("/$MIXED_BUCKET", Bucket)
-        Bucket deserialized = SerializationUtils.roundtrip(bucket)
+        Bucket deserialized = SerializationUtils.roundtrip(mixedBucket)
 
         expect:
-        that deserialized, jsonEquals(bucket)
+        that deserialized, jsonEquals(mixedBucket)
     }
 }
