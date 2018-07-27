@@ -124,6 +124,10 @@ class VisualizationConverterTest extends Specification {
                 [new Dimension("2"), new Dimension(["1", "measureGroup"], null)],
                 null
         )
+        "column"  | STACKED_COLUMN_CHART | new ResultSpec(
+                [new Dimension(["1", "measureGroup"], null), new Dimension("2")],
+                null
+        )
         "line" | LINE_CHART           | new ResultSpec(
                 [new Dimension("measureGroup"), new Dimension("1")],
                 null

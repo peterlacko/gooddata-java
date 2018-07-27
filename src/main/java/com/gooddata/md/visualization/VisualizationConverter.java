@@ -110,6 +110,7 @@ public abstract class VisualizationConverter {
                                                  final VisualizationType visualizationType) {
         switch (visualizationType) {
             case COLUMN:
+                return getDimensionsForColumn(visualizationObject, STACK, VIEW);
             case BAR:
                 return getDimensionsForStacked(visualizationObject, STACK, VIEW);
             case LINE:
@@ -132,6 +133,44 @@ public abstract class VisualizationConverter {
 
         if (attribute != null) {
             dimensions.add(new Dimension(attribute.getLocalIdentifier()));
+        }
+
+        return dimensions;
+    }
+
+    private static List<Dimension> getDimensionsForColumn(final VisualizationObject visualizationObject,
+                                                           final CollectionType stackBy,
+                                                           final CollectionType viewBy) {
+        VisualizationAttribute stack = visualizationObject.getAttributeFromCollection(stackBy);
+        VisualizationAttribute view = visualizationObject.getAttributeFromCollection(viewBy);
+
+        List<Dimension> dimensions = new ArrayList<>();
+
+        if (stack != null) {
+            List<String> dimensionItems = new ArrayList<>();
+
+            if (view != null) {
+                dimensionItems.add(view.getLocalIdentifier());
+            }
+
+            if (visualizationObject.hasMeasures()) {
+                dimensionItems.add(MEASURE_GROUP);
+            }
+
+            if (!dimensionItems.isEmpty()) {
+                dimensions.add(new Dimension(dimensionItems));
+            }
+
+            dimensions.add(new Dimension(stack.getLocalIdentifier()));
+        } else {
+            if (view != null) {
+                dimensions.add(new Dimension(view.getLocalIdentifier()));
+            }
+
+            if (visualizationObject.hasMeasures()) {
+                dimensions.add(new Dimension(MEASURE_GROUP));
+            }
+
         }
 
         return dimensions;
